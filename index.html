@@ -899,30 +899,62 @@ document.getElementById('clearListeningBtn').addEventListener('click', function(
   document.getElementById('playBtn').textContent = '▶';
 });
  
-// ── Whisper Transcription ──────────────────────────────────────────────────
+// REPLACE this section in your grammatik-app-5.html around line 636-667:
+
+// ── Whisper ───────────────────────────────────────────────────────────────
 document.getElementById('transcribeBtn').addEventListener('click', async function() {
   var openaiKey = getKey('openaiKey');
   if (!openaiKey) { alert('Please save your OpenAI API key first.'); return; }
-  if (!currentAudioFile) { alert('Please choose an audio file.'); return; }
-  if (currentAudioFile.size > 25*1024*1024) { alert('File too large (>25 MB). Use a shorter clip.'); return; }
- 
+  
+  // Get the audio file - could be from input OR from downloaded podcast
+  var audioFile = currentAudioFile;
+  
+  // If no file object but we have audio element with src, fetch it
+  if (!audioFile && audioEl.src) {
+    try {
+      var response = await fetch(audioEl.src);
+      var blob = await response.blob();
+      audioFile = new File([blob], 'audio.mp3', { type: 'audio/mpeg' });
+    } catch(err) {
+      alert('Failed to get audio file: ' + err.message);
+      return;
+    }
+  }
+  
+  if (!audioFile) { alert('Please choose an audio file first.'); return; }
+  
+  // Check file size
+  if (audioFile.size > 25*1024*1024) { 
+    alert('File too large (>' + (audioFile.size/(1024*1024)).toFixed(1) + ' MB). Should be under 25MB after compression.'); 
+    return; 
+  }
+
   var btn = this;
   btn.textContent = 'Transcribing…'; btn.disabled = true;
-  setStatus('transcribeStatus', 'info', '<span class="spin"></span>Sending to Whisper…');
- 
+  setStatus('transcribeStatus', 'info', '<span class="spin"></span>Sending to Whisper (File: ' + (audioFile.size/(1024*1024)).toFixed(1) + 'MB)…');
+
   try {
     var fd = new FormData();
-    fd.append('file', currentAudioFile);
+    fd.append('file', audioFile);  // IMPORTANT: audioFile must be a File or Blob object, not a string
     fd.append('model', 'whisper-1');
     fd.append('language', 'de');
+    
     var r = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-      method:'POST', headers:{'Authorization':'Bearer '+openaiKey}, body:fd
+      method:'POST', 
+      headers:{'Authorization':'Bearer '+openaiKey}, 
+      body:fd
     });
-    if (!r.ok) { var ej = await r.json().catch(function(){return{};}); throw new Error(ej.error ? ej.error.message : 'Whisper error '+r.status); }
+    
+    if (!r.ok) { 
+      var ej = await r.json().catch(function(){return{};}); 
+      throw new Error(ej.error ? ej.error.message : 'Whisper error '+r.status); 
+    }
+    
     var json = await r.json();
     var text = (json.text||'').trim();
     if (!text) throw new Error('Whisper returned empty transcription.');
-    setStatus('transcribeStatus','success','✓ Transcribed — ' + text.split(/\s+/).filter(Boolean).length + ' words. Review below, then generate the lyrics view.');
+    
+    setStatus('transcribeStatus','success','✓ Transcribed — ' + text.split(/\s+/).filter(Boolean) + ' words. Review below, then generate the lyrics view.');
     document.getElementById('rawTranscriptEdit').value = text;
     document.getElementById('rawTranscriptSection').style.display = 'block';
     document.getElementById('rawTranscriptSection').scrollIntoView({behavior:'smooth',block:'start'});
