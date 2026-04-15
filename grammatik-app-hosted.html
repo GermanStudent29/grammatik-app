@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Grammatik · German Essay Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Circular+Std:wght@400;500;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#121212;
+  --bg2:#181818;
+  --bg3:#282828;
+  --bg4:#3e3e3e;
+  --text:#ffffff;
+  --text2:#b3b3b3;
+  --text3:#6a6a6a;
+  --green:#1ed760;
+  --green-dim:rgba(30,215,96,0.12);
+  --green-mid:rgba(30,215,96,0.25);
+  --radius:8px;
+  --sidebar:220px;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;}
+
+/* ── layout ── */
+.app-shell{display:flex;height:100vh;overflow:hidden;}
+.sidebar{width:var(--sidebar);background:#000;display:flex;flex-direction:column;padding:24px 0;flex-shrink:0;border-right:1px solid rgba(255,255,255,0.04);}
+.sidebar-logo{padding:0 24px 32px;font-size:1.45em;font-weight:700;letter-spacing:-0.5px;color:#fff;}
+.sidebar-logo span{color:var(--green);}
+.nav-item{display:flex;align-items:center;gap:14px;padding:10px 24px;cursor:pointer;color:var(--text2);font-size:0.88em;font-weight:500;border-radius:0;transition:color 0.15s;border-left:2px solid transparent;letter-spacing:0.2px;}
+.nav-item:hover{color:#fff;}
+.nav-item.active{color:#fff;border-left-color:var(--green);}
+.nav-icon{font-size:1.1em;width:20px;text-align:center;}
+.main{flex:1;overflow-y:auto;background:linear-gradient(180deg, #1a1a1a 0%, var(--bg) 300px);}
+.main::-webkit-scrollbar{width:8px;}
+.main::-webkit-scrollbar-track{background:transparent;}
+.main::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:4px;}
+.topbar{padding:28px 40px 0;display:flex;align-items:center;justify-content:space-between;}
+.page-title{font-size:2.2em;font-weight:700;letter-spacing:-0.5px;}
+.page-subtitle{color:var(--text2);font-size:0.88em;margin-top:4px;font-weight:300;}
+.content{padding:32px 40px 60px;}
+
+/* ── tab pages ── */
+.tab-page{display:none;}
+.tab-page.active{display:block;}
+
+/* ── cards ── */
+.card{background:var(--bg2);border-radius:var(--radius);padding:28px;margin-bottom:20px;}
+.card-title{font-size:0.72em;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);margin-bottom:20px;}
+
+/* ── inputs ── */
+.field-row{display:flex;gap:10px;margin-bottom:14px;}
+.field-input{flex:1;padding:12px 16px;background:var(--bg3);border:1px solid rgba(255,255,255,0.08);color:#fff;border-radius:6px;font-size:0.88em;font-family:inherit;outline:none;transition:border-color 0.15s;}
+.field-input:focus{border-color:rgba(255,255,255,0.25);}
+.field-hint{color:var(--text3);font-size:0.8em;margin-bottom:12px;line-height:1.6;}
+
+/* ── buttons ── */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 22px;border-radius:50px;border:none;cursor:pointer;font-size:0.85em;font-weight:600;font-family:inherit;transition:all 0.15s;letter-spacing:0.3px;}
+.btn-green{background:var(--green);color:#000;}
+.btn-green:hover{background:#1fdf64;transform:scale(1.03);}
+.btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.15);}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.4);}
+.btn-danger{background:transparent;color:#ff6b6b;border:1px solid rgba(255,107,107,0.3);}
+.btn-danger:hover{background:rgba(255,107,107,0.08);}
+.btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+.btn-group{display:flex;gap:10px;flex-wrap:wrap;}
+
+/* ── topic box ── */
+.topic-display{background:var(--bg3);border-radius:6px;padding:20px 22px;min-height:72px;display:flex;align-items:center;margin-bottom:18px;border:1px solid rgba(255,255,255,0.05);}
+.topic-text{font-size:1.05em;line-height:1.7;font-weight:400;}
+.topic-placeholder{color:var(--text3);font-style:italic;}
+
+/* ── essay textarea ── */
+.essay-area{width:100%;padding:18px;background:var(--bg3);border:1px solid rgba(255,255,255,0.05);color:#fff;border-radius:6px;font-size:0.95em;line-height:1.8;font-family:inherit;resize:vertical;min-height:200px;outline:none;transition:border-color 0.15s;}
+.essay-area:focus{border-color:rgba(255,255,255,0.2);}
+.word-count{color:var(--text3);font-size:0.8em;margin-top:8px;}
+
+/* ── score ── */
+.score-bar{display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap;}
+.score-pill{background:var(--bg3);border-radius:var(--radius);padding:16px 20px;flex:1;min-width:130px;}
+.score-label{color:var(--text2);font-size:0.75em;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.score-num{font-size:2em;font-weight:700;color:var(--green);}
+.feedback-area{background:var(--bg3);border-radius:6px;padding:20px;line-height:1.9;font-size:0.9em;color:var(--text2);white-space:pre-wrap;word-break:break-word;}
+
+/* ── ─── SPOTIFY LYRICS STYLE ─── ── */
+.spotify-lyrics-wrap{padding:12px 0;}
+.lyric-line{padding:10px 0;cursor:default;transition:color 0.2s;color:var(--text3);}
+.lyric-line.active-line{color:#fff;}
+.lyric-line.active-line .lyric-de{color:#fff;font-weight:700;}
+.lyric-line.active-line .lyric-en{color:var(--text2);}
+.lyric-de{font-size:1.28em;font-weight:600;line-height:1.5;color:var(--text3);letter-spacing:-0.2px;transition:color 0.2s, font-weight 0.2s;}
+.lyric-en{font-size:0.88em;font-weight:400;color:#444;line-height:1.5;margin-top:3px;font-style:normal;transition:color 0.2s;}
+.lyric-line:not(.active-line) .lyric-de{color:var(--text3);font-weight:600;}
+.lyric-line:not(.active-line) .lyric-en{color:#444;}
+
+/* clickable word */
+.de-word{display:inline;cursor:pointer;border-radius:3px;padding:1px 1px;transition:background 0.12s, color 0.12s;}
+.de-word:hover{color:var(--green);background:var(--green-dim);}
+
+/* ── definition popup ── */
+.def-popup{position:fixed;background:#282828;border:none;border-radius:12px;padding:20px 22px;max-width:300px;min-width:220px;box-shadow:0 16px 48px rgba(0,0,0,0.8);z-index:9999;display:none;animation:popIn 0.15s cubic-bezier(.23,1,.32,1);}
+@keyframes popIn{from{opacity:0;transform:scale(0.9) translateY(6px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.def-close{position:absolute;top:12px;right:14px;color:var(--text3);cursor:pointer;font-size:0.9em;background:none;border:none;padding:0;}
+.def-close:hover{color:#fff;}
+.def-word-title{color:var(--green);font-size:1.1em;font-weight:700;margin-bottom:3px;}
+.def-pos{color:var(--text3);font-size:0.72em;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.def-meaning{color:#fff;font-size:0.92em;line-height:1.55;}
+.def-example{color:var(--text2);font-size:0.82em;margin-top:10px;font-style:italic;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);}
+
+/* ── audio player (Spotify style) ── */
+.audio-player-bar{background:var(--bg3);border-radius:var(--radius);padding:20px 24px;margin-bottom:16px;}
+.audio-name{font-size:0.82em;color:var(--text2);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.audio-name-icon{color:var(--green);}
+.player-row{display:flex;align-items:center;gap:14px;}
+.play-btn{width:40px;height:40px;border-radius:50%;background:var(--green);border:none;color:#000;font-size:1em;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;transition:transform 0.1s;}
+.play-btn:hover{transform:scale(1.07);background:#1fdf64;}
+.seek-track{flex:1;position:relative;height:4px;border-radius:2px;background:rgba(255,255,255,0.1);cursor:pointer;}
+.seek-fill{height:100%;border-radius:2px;background:var(--green);pointer-events:none;transition:width 0.1s;}
+.seek-bar{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;}
+.time-disp{color:var(--text3);font-size:0.78em;white-space:nowrap;min-width:88px;text-align:right;font-variant-numeric:tabular-nums;}
+.speed-row{display:flex;gap:6px;margin-top:14px;align-items:center;}
+.speed-tag{color:var(--text3);font-size:0.75em;margin-right:4px;}
+.speed-btn{padding:4px 11px;font-size:0.75em;border:1px solid rgba(255,255,255,0.1);color:var(--text3);background:transparent;border-radius:50px;cursor:pointer;transition:all 0.15s;font-family:inherit;}
+.speed-btn:hover,.speed-btn.active{border-color:var(--green);color:var(--green);}
+
+/* ── status banners ── */
+.status-banner{padding:14px 18px;border-radius:6px;margin:14px 0;font-size:0.85em;line-height:1.6;display:none;}
+.status-banner.info{background:var(--green-dim);border:1px solid var(--green-mid);color:#b9f5cc;}
+.status-banner.error{background:rgba(255,100,100,0.08);border:1px solid rgba(255,100,100,0.25);color:#ffaaaa;}
+.status-banner.success{background:var(--green-dim);border:1px solid var(--green-mid);color:var(--green);}
+.status-banner.show{display:block;}
+
+/* ── spinner ── */
+.spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(30,215,96,0.2);border-top-color:var(--green);border-radius:50%;animation:s 0.7s linear infinite;vertical-align:middle;margin-right:7px;}
+@keyframes s{to{transform:rotate(360deg);}}
+
+/* ── history ── */
+.hist-card{background:var(--bg2);border-radius:var(--radius);padding:16px 20px;margin-bottom:12px;cursor:pointer;transition:background 0.12s;}
+.hist-card:hover{background:var(--bg3);}
+.hist-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+.hist-topic{font-size:0.88em;font-weight:600;color:#fff;flex:1;}
+.hist-meta{color:var(--text3);font-size:0.75em;margin-top:3px;}
+.hist-score{font-size:1.4em;font-weight:700;color:var(--green);flex-shrink:0;}
+.hist-preview{display:none;margin-top:14px;border-top:1px solid rgba(255,255,255,0.05);padding-top:14px;color:var(--text2);font-size:0.82em;line-height:1.7;}
+.hist-card.open .hist-preview{display:block;}
+
+/* ── analytics ── */
+.analytics-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+@media(max-width:700px){.analytics-grid{grid-template-columns:1fr;}}
+.chart-wrap{background:var(--bg3);border-radius:var(--radius);padding:20px;height:280px;position:relative;}
+.weakness-list p{padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.88em;color:var(--text2);}
+.weakness-list p strong{color:#fff;}
+
+/* ── upload button ── */
+.upload-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;background:var(--bg3);border:1px dashed rgba(255,255,255,0.15);border-radius:50px;color:var(--text2);cursor:pointer;font-size:0.85em;font-weight:500;transition:all 0.15s;}
+.upload-btn:hover{border-color:var(--green);color:var(--green);}
+.inline-filename{color:var(--text3);font-size:0.82em;margin-left:8px;}
+
+/* ── api section ── */
+.api-card{background:var(--green-dim);border:1px solid var(--green-mid);border-radius:var(--radius);padding:20px 24px;margin-bottom:16px;}
+.api-card .card-title{color:var(--green);}
+.api-saved{font-size:0.82em;color:var(--green);margin-top:8px;display:none;}
+.api-saved.show{display:block;}
+
+/* ── section heading ── */
+.section-head{font-size:1.4em;font-weight:700;margin-bottom:6px;letter-spacing:-0.3px;}
+.section-sub{color:var(--text2);font-size:0.85em;margin-bottom:24px;}
+
+/* ── translinear container ── */
+.translinear-bg{background:var(--bg2);border-radius:var(--radius);padding:32px 36px;min-height:200px;}
+
+@media(max-width:640px){
+  .sidebar{display:none;}
+  .content{padding:20px;}
+  .topbar{padding:20px 20px 0;}
+}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">Gram<span>matik</span></div>
+    <div class="nav-item active" data-tab="essay"><span class="nav-icon">✍️</span>Essay</div>
+    <div class="nav-item" data-tab="listening"><span class="nav-icon">🎧</span>Listening</div>
+    <div class="nav-item" data-tab="history"><span class="nav-icon">📋</span>History</div>
+    <div class="nav-item" data-tab="analytics"><span class="nav-icon">📊</span>Analytics</div>
+    <div class="nav-item" data-tab="settings"><span class="nav-icon">⚙️</span>Settings</div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="page-title" id="pageTitle">Essay</div>
+        <div class="page-subtitle" id="pageSubtitle">German B1–B2 Writing Practice</div>
+      </div>
+    </div>
+    <div class="content">
+
+      <!-- ══ ESSAY TAB ══ -->
+      <div id="tab-essay" class="tab-page active">
+
+        <div class="api-card">
+          <div class="card-title">Claude API Key</div>
+          <p class="field-hint">Used for essay grading, translinear translation, and word definitions.</p>
+          <div class="field-row">
+            <input type="password" id="apiKey" class="field-input" placeholder="sk-ant-…" />
+            <button class="btn btn-green" id="saveApiBtn">Save</button>
+          </div>
+          <div class="api-saved" id="apiStatus">✓ Saved</div>
+        </div>
+
+        <div class="api-card" style="margin-bottom:28px;">
+          <div class="card-title">OpenAI API Key</div>
+          <p class="field-hint">Used only for Whisper audio transcription in the Listening tab.</p>
+          <div class="field-row">
+            <input type="password" id="openaiKey" class="field-input" placeholder="sk-…" />
+            <button class="btn btn-green" id="saveOpenaiBtn">Save</button>
+          </div>
+          <div class="api-saved" id="openaiStatus">✓ Saved</div>
+        </div>
+
+        <div class="section-head">Essay Topic</div>
+        <div class="section-sub">Get a random topic, then write 100–200 words.</div>
+        <div class="topic-display"><div id="topicDisplay" class="topic-text topic-placeholder">Click Generate Topic to get started</div></div>
+        <div class="btn-group" style="margin-bottom:28px;">
+          <button class="btn btn-green" id="generateBtn">↻ Generate Topic</button>
+          <button class="btn btn-ghost" id="clearBtn">Clear</button>
+        </div>
+
+        <div class="section-head">Your Essay</div>
+        <div class="section-sub">Write in German. Aim for 100–200 words.</div>
+        <textarea class="essay-area" id="essayInput" placeholder="Schreiben Sie hier Ihren Aufsatz…"></textarea>
+        <div class="word-count" id="wordCount">0 words</div>
+        <div class="btn-group" style="margin-top:18px;">
+          <button class="btn btn-green" id="submitBtn">Submit for Feedback</button>
+        </div>
+
+        <div id="feedbackSection" style="display:none;margin-top:28px;">
+          <div class="section-head">Feedback</div>
+          <div class="score-bar">
+            <div class="score-pill"><div class="score-label">Score</div><div class="score-num" id="scoreDisplay">—</div></div>
+            <div class="score-pill"><div class="score-label">Words</div><div class="score-num" id="countDisplay">—</div></div>
+          </div>
+          <div class="feedback-area" id="feedbackDisplay"></div>
+        </div>
+      </div>
+
+      <!-- ══ LISTENING TAB ══ -->
+      <div id="tab-listening" class="tab-page">
+        <div class="section-head">Upload German Audio</div>
+        <div class="section-sub">Whisper transcribes, then Claude builds a Spotify-style lyric view with clickable definitions.</div>
+
+        <div class="card">
+          <p class="field-hint">MP3, M4A, WAV, OGG, WEBM · needs OpenAI & Claude keys.</p>
+          
+          <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.05);">
+            <label style="display:block;margin-bottom:8px;font-size:0.85em;color:var(--text2);font-weight:600;">Paste a URL (Spotify, YouTube, SoundCloud, etc.)</label>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <input type="text" id="audioUrl" class="field-input" placeholder="https://open.spotify.com/track/... or https://www.youtube.com/watch?v=..." style="flex:1;"/>
+              <button class="btn btn-green" id="downloadAudioBtn" type="button">↓ Download</button>
+            </div>
+            <div id="downloadStatus" class="status-banner"></div>
+          </div>
+          
+          <label style="display:block;margin-bottom:8px;font-size:0.85em;color:var(--text2);font-weight:600;">Or upload directly</label>
+          <div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+            <label for="audioFile" class="upload-btn">📂 Choose Audio File</label>
+            <input type="file" id="audioFile" accept="audio/*" style="display:none;"/>
+            <span id="audioFilenameInline" class="inline-filename"></span>
+          </div>
+
+          <div id="playerSection" style="display:none;">
+            <div class="audio-player-bar">
+              <div class="audio-name"><span class="audio-name-icon">♫</span><span id="audioFilename"></span></div>
+              <div class="player-row">
+                <button class="play-btn" id="playBtn" type="button">▶</button>
+                <div class="seek-track">
+                  <div class="seek-fill" id="seekFill" style="width:0%"></div>
+                  <input type="range" class="seek-bar" id="seekBar" value="0" min="0" max="100" step="0.1"/>
+                </div>
+                <span class="time-disp" id="timeDisplay">0:00 / 0:00</span>
+              </div>
+              <div class="speed-row">
+                <span class="speed-tag">Speed</span>
+                <button class="speed-btn" data-speed="0.5" type="button">0.5×</button>
+                <button class="speed-btn active" data-speed="1" type="button">1×</button>
+                <button class="speed-btn" data-speed="1.25" type="button">1.25×</button>
+                <button class="speed-btn" data-speed="1.5" type="button">1.5×</button>
+              </div>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-green" id="transcribeBtn" type="button">🎙 Transcribe with Whisper</button>
+              <button class="btn btn-ghost" id="clearListeningBtn" type="button">Clear</button>
+            </div>
+            <div id="transcribeStatus" class="status-banner"></div>
+          </div>
+        </div>
+
+        <div id="rawTranscriptSection" style="display:none;" class="card">
+          <div class="card-title">Transcribed Text</div>
+          <p class="field-hint">Review and correct if needed, then generate the interactive view.</p>
+          <textarea class="essay-area" id="rawTranscriptEdit" style="min-height:110px;"></textarea>
+          <div class="btn-group" style="margin-top:14px;">
+            <button class="btn btn-green" id="generateTranslinearBtn" type="button">Generate Lyrics View</button>
+          </div>
+          <div id="translinearStatus" class="status-banner"></div>
+        </div>
+
+        <div id="transcriptSection" style="display:none;">
+          <div class="section-head" style="margin-bottom:6px;">Translinear Transcript</div>
+          <p class="section-sub">Click any <span style="color:var(--green);">German word</span> for its definition.</p>
+          <div class="translinear-bg">
+            <div id="transcriptContent" class="spotify-lyrics-wrap"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ HISTORY TAB ══ -->
+      <div id="tab-history" class="tab-page">
+        <div class="section-head">Submission History</div>
+        <div class="section-sub">Click a card to expand.</div>
+        <div id="submissionsList"></div>
+      </div>
+
+      <!-- ══ ANALYTICS TAB ══ -->
+      <div id="tab-analytics" class="tab-page">
+        <div class="section-head">Grammar Analysis</div>
+        <div class="section-sub">Breakdown of errors across all submissions.</div>
+        <div class="analytics-grid">
+          <div class="chart-wrap"><canvas id="weaknessChart"></canvas></div>
+          <div id="weaknessText" class="weakness-list"></div>
+        </div>
+      </div>
+
+      <!-- ══ SETTINGS TAB ══ -->
+      <div id="tab-settings" class="tab-page">
+        <div class="section-head">Settings</div>
+        <div class="section-sub">Manage your data.</div>
+        <div class="btn-group" style="flex-direction:column;align-items:flex-start;">
+          <button class="btn btn-ghost" id="exportBtn">↓ Export Data as JSON</button>
+          <button class="btn btn-danger" id="clearAllBtn">✕ Clear All Data</button>
+        </div>
+        <div style="margin-top:40px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.06);">
+          <p style="color:var(--text3);font-size:0.82em;">Grammatik · Powered by Claude & Whisper</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- DEFINITION POPUP -->
+<div class="def-popup" id="defPopup">
+  <button class="def-close" id="defClose">✕</button>
+  <div class="def-word-title" id="defWord"></div>
+  <div class="def-pos" id="defPos"></div>
+  <div class="def-meaning" id="defMeaning"></div>
+  <div class="def-example" id="defExample" style="display:none;"></div>
+</div>
+
+<audio id="audioEl" style="display:none;"></audio>
+
+<script>
+'use strict';
+
+// ── Configuration ──────────────────────────────────────────────────────────
+// Update this to your hosted backend URL (e.g., https://your-server.onrender.com)
+var BACKEND_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:3001'
+  : 'https://your-backend-url-here.onrender.com'; // Change this when deploying
+
+// ── Titles per tab ──────────────────────────────────────────────────────────
+var TAB_META = {
+  essay:     {title:'Essay',     sub:'German B1–B2 Writing Practice'},
+  listening: {title:'Listening', sub:'Upload audio and explore translinear transcripts'},
+  history:   {title:'History',   sub:'All your past submissions'},
+  analytics: {title:'Analytics', sub:'See where you make the most errors'},
+  settings:  {title:'Settings',  sub:'Manage your data and keys'},
+};
+
+// ── Essay topics ──────────────────────────────────────────────────────────
+var TOPICS = [
+  "Schreiben Sie über Ihre liebste Jahreszeit und warum sie Ihnen gefällt.",
+  "Beschreiben Sie einen wichtigen Tag in Ihrem Leben und was passiert ist.",
+  "Erzählen Sie von einem Ort, den Sie besucht haben, und von Ihren Erfahrungen dort.",
+  "Schreiben Sie über eine Person, die Ihnen wichtig ist, und warum.",
+  "Erklären Sie, wie Sie Ihren Alltag verbringen, von morgens bis abends.",
+  "Beschreiben Sie ein Hobby, das Sie mögen, und warum es Ihnen Spaß macht.",
+  "Erzählen Sie von einem Film oder Buch, das Ihnen gefallen hat.",
+  "Schreiben Sie über ein Ziel, das Sie erreichen möchten, und Ihren Plan dafür.",
+  "Beschreiben Sie Ihre Lieblingsspeise und warum sie köstlich ist.",
+  "Erklären Sie, wie man einen Freund unterstützen kann, wenn er Probleme hat.",
+  "Schreiben Sie über ein Ereignis aus Ihrer Kindheit, das Sie nicht vergessen.",
+  "Beschreiben Sie das perfekte Wochenende für Sie."
+];
+
+var currentTopic = '';
+var chartInstance = null;
+var defCache = {};
+var currentWhisperData = null;
+var wordTimings = [];
+
+// ── Storage ──────────────────────────────────────────────────────────────
+function loadData() {
+  try { return JSON.parse(localStorage.getItem('grammatik_v2') || '{}'); }
+  catch(e) { return {}; }
+}
+function saveData(d) { localStorage.setItem('grammatik_v2', JSON.stringify(d)); }
+function getKey(k) { 
+  var stored = (loadData()[k] || '').trim();
+  if (stored) return stored;
+  return '';
+}
+function setKey(k, v) { var d=loadData(); d[k]=v; saveData(d); }
+function getSubs() { return loadData().submissions || []; }
+function addSub(s) { var d=loadData(); if (!d.submissions) d.submissions=[]; d.submissions.push(s); saveData(d); }
+
+// ── Tab switching ─────────────────────────────────────────────────────────
+document.querySelectorAll('.nav-item').forEach(function(el) {
+  el.addEventListener('click', function() {
+    var tab = el.dataset.tab;
+    document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
+    el.classList.add('active');
+    document.querySelectorAll('.tab-page').forEach(function(p){ p.classList.remove('active'); });
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('pageTitle').textContent = TAB_META[tab].title;
+    document.getElementById('pageSubtitle').textContent = TAB_META[tab].sub;
+    if (tab === 'history') renderHistory();
+    if (tab === 'analytics') renderAnalytics();
+  });
+});
+
+// ── API Keys ──────────────────────────────────────────────────────────────
+function setupKeyUI(inputId, btnId, statusId, storeKey) {
+  var input  = document.getElementById(inputId);
+  var btn    = document.getElementById(btnId);
+  var status = document.getElementById(statusId);
+  var saved  = getKey(storeKey);
+  if (saved) { 
+    input.value = saved; 
+    status.classList.add('show');
+  }
+  btn.addEventListener('click', function() {
+    var v = input.value.trim();
+    if (!v) return;
+    setKey(storeKey, v);
+    status.classList.add('show');
+  });
+}
+setupKeyUI('apiKey',    'saveApiBtn',    'apiStatus',    'claudeKey');
+setupKeyUI('openaiKey', 'saveOpenaiBtn', 'openaiStatus', 'openaiKey');
+
+// ── Essay ─────────────────────────────────────────────────────────────────
+document.getElementById('generateBtn').addEventListener('click', function() {
+  currentTopic = TOPICS[Math.floor(Math.random() * TOPICS.length)];
+  var el = document.getElementById('topicDisplay');
+  el.textContent = currentTopic;
+  el.classList.remove('topic-placeholder');
+  document.getElementById('essayInput').value = '';
+  document.getElementById('feedbackSection').style.display = 'none';
+});
+
+document.getElementById('clearBtn').addEventListener('click', function() {
+  currentTopic = '';
+  var el = document.getElementById('topicDisplay');
+  el.textContent = 'Click Generate Topic to get started';
+  el.classList.add('topic-placeholder');
+  document.getElementById('essayInput').value = '';
+  document.getElementById('feedbackSection').style.display = 'none';
+  document.getElementById('wordCount').textContent = '0 words';
+});
+
+document.getElementById('essayInput').addEventListener('input', function() {
+  var w = countWords(this.value);
+  document.getElementById('wordCount').textContent = w + ' words';
+});
+
+function countWords(s) { return s.trim().split(/\s+/).filter(Boolean).length; }
+
+document.getElementById('submitBtn').addEventListener('click', async function() {
+  var key = getKey('claudeKey');
+  if (!key) { alert('Please save your Claude API key first.'); return; }
+  var essay = document.getElementById('essayInput').value.trim();
+  if (!essay) { alert('Please write an essay first.'); return; }
+  if (!currentTopic) { alert('Please generate a topic first.'); return; }
+  var wc = countWords(essay);
+  if (wc < 80) { alert('Please write at least 80 words (' + wc + ' so far).'); return; }
+
+  var btn = this;
+  btn.textContent = 'Scoring…'; btn.disabled = true;
+
+  var prompt = 'Grade this B1-B2 German essay on grammar, word order, and clauses only.\n\nTOPIC: ' + currentTopic + '\n\nESSAY: ' + essay + '\n\nRespond exactly like this:\n\nSCORE: [1-100]\n\nKEY ISSUES:\n- issue one\n\nFEEDBACK: general feedback\n\nCATEGORIES:\n- Wordorder: X%\n- Clauses: X%\n- Cases: X%\n- Tenses: X%\n- Articles: X%\n- Prepositions: X%\n- Other: X%';
+
+  try {
+    var res = await claudeAPI(key, prompt, 1500);
+    var feedback = res.content[0].text;
+    var scoreMatch = feedback.match(/SCORE:\s*(\d+)/);
+    var score = scoreMatch ? parseInt(scoreMatch[1]) : 0;
+
+    var weaknesses = {};
+    ['Wordorder','Clauses','Cases','Tenses','Articles','Prepositions','Other'].forEach(function(cat) {
+      var m = feedback.match(new RegExp(cat + ':\\s*(\\d+)%', 'i'));
+      weaknesses[cat.toLowerCase()] = m ? parseInt(m[1]) : 0;
+    });
+
+    addSub({ id: Date.now(), topic: currentTopic, essay, score, feedback, weaknesses, timestamp: new Date().toLocaleString() });
+
+    document.getElementById('scoreDisplay').textContent = score;
+    document.getElementById('countDisplay').textContent = wc;
+    document.getElementById('feedbackDisplay').textContent = feedback;
+    document.getElementById('feedbackSection').style.display = 'block';
+    document.getElementById('feedbackSection').scrollIntoView({ behavior:'smooth', block:'start' });
+  } catch(err) {
+    alert('Error: ' + err.message);
+  }
+  btn.textContent = 'Submit for Feedback'; btn.disabled = false;
+});
+
+// ── History ───────────────────────────────────────────────────────────────
+function renderHistory() {
+  var subs = getSubs();
+  var el = document.getElementById('submissionsList');
+  if (!subs.length) { el.innerHTML = '<p style="color:var(--text3);font-size:0.88em;">No submissions yet.</p>'; return; }
+  var html = '';
+  for (var i = subs.length-1; i >= 0; i--) {
+    var s = subs[i];
+    html += '<div class="hist-card" onclick="this.classList.toggle(\'open\')">';
+    html += '<div class="hist-header">';
+    html += '<div><div class="hist-topic">' + esc(s.topic) + '</div><div class="hist-meta">' + esc(s.timestamp) + '</div></div>';
+    html += '<div class="hist-score">' + s.score + '</div>';
+    html += '</div>';
+    html += '<div class="hist-preview"><strong>Essay:</strong><br>' + esc(s.essay) + '<br><br><strong>Feedback:</strong><br>' + esc(s.feedback) + '</div>';
+    html += '</div>';
+  }
+  el.innerHTML = html;
+}
+
+// ── Analytics ─────────────────────────────────────────────────────────────
+function renderAnalytics() {
+  var subs = getSubs();
+  if (!subs.length) { document.getElementById('weaknessText').innerHTML = '<p style="color:var(--text3);">Submit essays to see analysis.</p>'; return; }
+
+  var totals = { wordorder:0, clauses:0, cases:0, tenses:0, articles:0, prepositions:0, other:0 };
+  subs.forEach(function(s){ for (var k in totals) totals[k] += (s.weaknesses[k]||0); });
+  var total = Object.values(totals).reduce(function(a,b){return a+b;},0);
+
+  var sorted = Object.entries(totals).map(function(e){ return [cap(e[0]), total>0 ? Math.round((e[1]/total)*100) : 0]; })
+    .sort(function(a,b){return b[1]-a[1];});
+
+  var ctx = document.getElementById('weaknessChart').getContext('2d');
+  if (chartInstance) chartInstance.destroy();
+  chartInstance = new Chart(ctx, {
+    type:'doughnut',
+    data:{
+      labels: sorted.map(function(x){return x[0];}),
+      datasets:[{ data: sorted.map(function(x){return x[1];}),
+        backgroundColor:['#1ed760','#17a349','#0e6b31','#1db954','#148f3e','#0c622a','#1ed760cc'],
+        borderColor:'#181818', borderWidth:3 }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, cutout:'60%',
+      plugins:{ legend:{ labels:{ color:'#b3b3b3', font:{size:11} } } } }
+  });
+
+  document.getElementById('weaknessText').innerHTML = sorted.map(function(x){
+    return '<p><strong>' + x[0] + '</strong>: ' + x[1] + '%</p>';
+  }).join('');
+}
+
+// ── Export / clear ─────────────────────────────────────────────────────────
+document.getElementById('exportBtn').addEventListener('click', function() {
+  var blob = new Blob([JSON.stringify(loadData(),null,2)], {type:'application/json'});
+  var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'grammatik_data.json'; a.click();
+});
+document.getElementById('clearAllBtn').addEventListener('click', function() {
+  if (confirm('Delete all saved data?')) { localStorage.clear(); location.reload(); }
+});
+
+// ── Audio URL Download ────────────────────────────────────────────────────
+var currentAudioFile = null;
+var currentObjectURL = null;
+
+document.getElementById('downloadAudioBtn').addEventListener('click', async function() {
+  var url = document.getElementById('audioUrl').value.trim();
+  if (!url) { alert('Please paste a URL.'); return; }
+  
+  var btn = this;
+  btn.textContent = 'Downloading…'; btn.disabled = true;
+  setStatus('downloadStatus', 'info', '<span class="spin"></span>Downloading audio (this may take a minute)…');
+  
+  try {
+    var response = await fetch(BACKEND_URL + '/api/download-audio', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: url })
+    });
+    
+    if (!response.ok) {
+      var error = await response.json();
+      throw new Error(error.error || 'Download failed');
+    }
+    
+    var blob = await response.blob();
+    var fileName = 'audio.mp3';
+    var file = new File([blob], fileName, { type: 'audio/mpeg' });
+    
+    currentAudioFile = file;
+    if (currentObjectURL) URL.revokeObjectURL(currentObjectURL);
+    currentObjectURL = URL.createObjectURL(blob);
+    audioEl.src = currentObjectURL;
+    audioEl.load();
+    
+    document.getElementById('audioFilename').textContent = fileName;
+    document.getElementById('audioFilenameInline').textContent = '✓ ' + fileName;
+    document.getElementById('playerSection').style.display = 'block';
+    document.getElementById('timeDisplay').textContent = '0:00 / 0:00';
+    document.getElementById('playBtn').textContent = '▶';
+    document.getElementById('seekFill').style.width = '0%';
+    setStatus('downloadStatus', 'success', '✓ Downloaded! Now transcribe with Whisper.');
+    document.getElementById('audioUrl').value = '';
+    
+  } catch(err) {
+    console.error('Download error:', err);
+    setStatus('downloadStatus', 'error', '⚠ ' + esc(err.message));
+  }
+  
+  btn.textContent = '↓ Download'; btn.disabled = false;
+});
+
+// ── Audio player ──────────────────────────────────────────────────────────
+var audioEl = document.getElementById('audioEl');
+
+document.getElementById('audioFile').addEventListener('change', function() {
+  var file = this.files[0]; if (!file) return;
+  currentAudioFile = file;
+  if (currentObjectURL) URL.revokeObjectURL(currentObjectURL);
+  currentObjectURL = URL.createObjectURL(file);
+  audioEl.src = currentObjectURL; audioEl.load();
+  document.getElementById('audioFilename').textContent = file.name;
+  document.getElementById('audioFilenameInline').textContent = file.name;
+  document.getElementById('playerSection').style.display = 'block';
+  document.getElementById('timeDisplay').textContent = '0:00 / 0:00';
+  document.getElementById('playBtn').textContent = '▶';
+  document.getElementById('seekFill').style.width = '0%';
+  setStatus('transcribeStatus', '', '');
+  document.getElementById('rawTranscriptSection').style.display = 'none';
+  document.getElementById('transcriptSection').style.display = 'none';
+});
+
+audioEl.addEventListener('loadedmetadata', function(){ document.getElementById('timeDisplay').textContent = '0:00 / ' + fmt(audioEl.duration); });
+audioEl.addEventListener('play', function() { startLyricSync(); });
+audioEl.addEventListener('pause', function() { stopLyricSync(); });
+audioEl.addEventListener('ended', function() { stopLyricSync(); document.getElementById('playBtn').textContent = '▶'; });
+audioEl.addEventListener('timeupdate', function() {
+  var dur = audioEl.duration;
+  if (dur && !isNaN(dur)) {
+    var pct = (audioEl.currentTime / dur) * 100;
+    document.getElementById('seekBar').value = pct;
+    document.getElementById('seekFill').style.width = pct + '%';
+    document.getElementById('timeDisplay').textContent = fmt(audioEl.currentTime) + ' / ' + fmt(dur);
+  }
+});
+
+document.getElementById('playBtn').addEventListener('click', function() {
+  if (!audioEl.src) return;
+  if (audioEl.paused) { audioEl.play().then(function(){ document.getElementById('playBtn').textContent = '⏸'; }); }
+  else { audioEl.pause(); document.getElementById('playBtn').textContent = '▶'; }
+});
+document.getElementById('seekBar').addEventListener('input', function() {
+  var dur = audioEl.duration;
+  if (dur && !isNaN(dur)) audioEl.currentTime = (this.value/100)*dur;
+});
+document.querySelectorAll('.speed-btn').forEach(function(b) {
+  b.addEventListener('click', function() {
+    audioEl.playbackRate = parseFloat(this.dataset.speed);
+    document.querySelectorAll('.speed-btn').forEach(function(x){ x.classList.remove('active'); });
+    this.classList.add('active');
+  });
+});
+
+document.getElementById('clearListeningBtn').addEventListener('click', function() {
+  stopLyricSync();
+  audioEl.pause(); audioEl.src = '';
+  currentAudioFile = null;
+  if (currentObjectURL) { URL.revokeObjectURL(currentObjectURL); currentObjectURL = null; }
+  document.getElementById('audioFile').value = '';
+  document.getElementById('audioFilenameInline').textContent = '';
+  document.getElementById('playerSection').style.display = 'none';
+  document.getElementById('rawTranscriptSection').style.display = 'none';
+  document.getElementById('transcriptSection').style.display = 'none';
+  setStatus('transcribeStatus','','');
+  document.getElementById('playBtn').textContent = '▶';
+  defCache = {};
+  currentWhisperData = null;
+  wordTimings = [];
+});
+
+// ── Whisper ───────────────────────────────────────────────────────────────
+document.getElementById('transcribeBtn').addEventListener('click', async function() {
+  var openaiKey = getKey('openaiKey');
+  if (!openaiKey) { alert('Please save your OpenAI API key first.'); return; }
+  if (!currentAudioFile) { alert('Please choose an audio file.'); return; }
+  if (currentAudioFile.size > 25*1024*1024) { alert('File too large (>25 MB). Use a shorter clip.'); return; }
+
+  var btn = this;
+  btn.textContent = 'Transcribing…'; btn.disabled = true;
+  setStatus('transcribeStatus', 'info', '<span class="spin"></span>Sending to Whisper…');
+
+  try {
+    var fd = new FormData();
+    fd.append('file', currentAudioFile);
+    fd.append('model', 'whisper-1');
+    fd.append('language', 'de');
+    fd.append('response_format', 'verbose_json');
+    fd.append('timestamp_granularities', 'word');
+    var r = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+      method:'POST', headers:{'Authorization':'Bearer '+openaiKey}, body:fd
+    });
+    if (!r.ok) { var ej = await r.json().catch(function(){return{};}); throw new Error(ej.error ? ej.error.message : 'Whisper error '+r.status); }
+    var json = await r.json();
+    var text = (json.text||'').trim();
+    if (!text) throw new Error('Whisper returned empty transcription.');
+    
+    console.log('Whisper response:', json);
+    
+    currentWhisperData = json;
+    setStatus('transcribeStatus','success','✓ Transcribed — ' + text.split(/\s+/).filter(Boolean).length + ' words. Review below, then generate the lyrics view.');
+    document.getElementById('rawTranscriptEdit').value = text;
+    document.getElementById('rawTranscriptSection').style.display = 'block';
+    document.getElementById('rawTranscriptSection').scrollIntoView({behavior:'smooth',block:'start'});
+  } catch(err) {
+    setStatus('transcribeStatus','error','⚠ ' + esc(err.message));
+  }
+  btn.textContent = '🎙 Transcribe with Whisper'; btn.disabled = false;
+});
+
+// ── Generate Translinear ──────────────────────────────────────────────────
+document.getElementById('generateTranslinearBtn').addEventListener('click', async function() {
+  var apiKey = getKey('claudeKey');
+  if (!apiKey) { alert('Please save your Claude API key first.'); return; }
+  var rawText = document.getElementById('rawTranscriptEdit').value.trim();
+  if (!rawText) { alert('No transcript text to translate.'); return; }
+
+  var btn = document.getElementById('generateTranslinearBtn');
+  btn.textContent = 'Translating…'; btn.disabled = true;
+
+  setStatus('translinearStatus', 'info', '<span class="spin"></span>Claude is translating…');
+  document.getElementById('transcriptSection').style.display = 'block';
+  document.getElementById('transcriptContent').innerHTML = '<div style="padding:40px;text-align:center;color:var(--text3);"><span class="spin"></span> Building lyrics view…</div>';
+
+  var lines = rawText
+    .replace(/([.!?])\s+/g, '$1\n')
+    .split(/\n+/)
+    .map(function(l){ return l.trim(); })
+    .filter(Boolean);
+  if (!lines.length) lines = [rawText];
+
+  var prompt = 'Translate each numbered German sentence into natural English. Return ONLY valid JSON with NO markdown fences, exactly this shape:\n{"pairs":[{"de":"German sentence","en":"English translation"}]}\n\nSentences:\n' + lines.map(function(l,i){ return (i+1)+'. '+l; }).join('\n');
+
+  try {
+    var res = await claudeAPI(apiKey, prompt, 4000);
+    var rawJson = res.content[0].text.trim()
+      .replace(/^```json\s*/i,'').replace(/^```\s*/i,'').replace(/```\s*$/,'').trim();
+
+    var start = rawJson.indexOf('{');
+    var end   = rawJson.lastIndexOf('}');
+    if (start === -1 || end === -1) throw new Error('No JSON object found in Claude response.');
+    rawJson = rawJson.slice(start, end+1);
+
+    var parsed = JSON.parse(rawJson);
+    if (!parsed.pairs || !Array.isArray(parsed.pairs)) throw new Error('Unexpected JSON shape from Claude.');
+
+    renderTranscript(parsed.pairs);
+    setStatus('translinearStatus','success','✓ Done! Click any German word to see its definition.');
+    document.getElementById('transcriptSection').scrollIntoView({behavior:'smooth',block:'start'});
+  } catch(err) {
+    setStatus('translinearStatus','error','⚠ Error: ' + esc(err.message));
+    document.getElementById('transcriptContent').innerHTML = '<div style="color:#ff9999;padding:20px;">Error: ' + esc(err.message) + '<br><br><small style="color:var(--text3);">Tip: Check your Claude API key and try again.</small></div>';
+  }
+
+  btn.textContent = 'Generate Lyrics View'; btn.disabled = false;
+});
+
+function renderTranscript(pairs) {
+  if (!pairs || !pairs.length) { document.getElementById('transcriptContent').innerHTML='<p style="color:var(--text3);">No content.</p>'; return; }
+  
+  buildWordTimings(pairs);
+  console.log('Rendering transcript with', pairs.length, 'lines');
+  
+  var html = '';
+  pairs.forEach(function(p, idx) {
+    html += '<div class="lyric-line" data-line-idx="' + idx + '">';
+    html += '<div class="lyric-de">' + makeClickable(p.de||'') + '</div>';
+    html += '<div class="lyric-en">' + esc(p.en||'') + '</div>';
+    html += '</div>';
+  });
+  document.getElementById('transcriptContent').innerHTML = html;
+  document.querySelectorAll('.de-word').forEach(function(w) {
+    w.addEventListener('click', function(e) { e.stopPropagation(); showDef(this.dataset.word, e); });
+  });
+}
+
+function buildWordTimings(pairs) {
+  wordTimings = [];
+  
+  if (currentWhisperData && currentWhisperData.segments && Array.isArray(currentWhisperData.segments)) {
+    console.log('Found Whisper segments:', currentWhisperData.segments.length);
+    
+    var whisperSegments = currentWhisperData.segments;
+    
+    var allWords = [];
+    whisperSegments.forEach(function(seg) {
+      if (seg.text) {
+        var words = seg.text.split(/\s+/).filter(Boolean);
+        var segStart = seg.start || 0;
+        var segEnd = seg.end || segStart;
+        var segDuration = segEnd - segStart;
+        var timePerWord = segDuration / Math.max(words.length, 1);
+        
+        words.forEach(function(word, idx) {
+          allWords.push({
+            word: word,
+            start: segStart + (idx * timePerWord),
+            end: segStart + ((idx + 1) * timePerWord)
+          });
+        });
+      }
+    });
+    
+    console.log('Extracted', allWords.length, 'words from segments with timings');
+    
+    if (allWords.length > 0) {
+      var allWordIdx = 0;
+      var matched = 0;
+      
+      for (var pairIdx = 0; pairIdx < pairs.length && allWordIdx < allWords.length; pairIdx++) {
+        var germanText = pairs[pairIdx].de || '';
+        var germanWords = germanText.split(/\s+/).filter(Boolean);
+        
+        for (var i = 0; i < germanWords.length && allWordIdx < allWords.length; i++) {
+          var germanWord = germanWords[i].replace(/[.,!?;:"""''«»()\[\]–—]/g,'').toLowerCase().trim();
+          var whisperWord = allWords[allWordIdx].word.replace(/[.,!?;:"""''«»()\[\]–—]/g,'').toLowerCase().trim();
+          
+          if (whisperWord === germanWord) {
+            wordTimings.push({
+              word: allWords[allWordIdx].word,
+              start: allWords[allWordIdx].start,
+              end: allWords[allWordIdx].end,
+              lineIdx: pairIdx
+            });
+            matched++;
+            allWordIdx++;
+          } else {
+            if (allWordIdx + 1 < allWords.length) {
+              var nextWhisperWord = allWords[allWordIdx + 1].word.replace(/[.,!?;:"""''«»()\[\]–—]/g,'').toLowerCase().trim();
+              if (nextWhisperWord === germanWord) {
+                allWordIdx++;
+                wordTimings.push({
+                  word: allWords[allWordIdx].word,
+                  start: allWords[allWordIdx].start,
+                  end: allWords[allWordIdx].end,
+                  lineIdx: pairIdx
+                });
+                matched++;
+                allWordIdx++;
+              } else {
+                wordTimings.push({
+                  word: allWords[allWordIdx].word,
+                  start: allWords[allWordIdx].start,
+                  end: allWords[allWordIdx].end,
+                  lineIdx: pairIdx
+                });
+                matched++;
+                allWordIdx++;
+              }
+            } else {
+              allWordIdx++;
+            }
+          }
+        }
+      }
+      
+      console.log('Mapped', matched, 'words from segments to lines');
+      if (wordTimings.length > 0) return;
+    }
+  }
+  
+  console.log('Falling back to proportional timing');
+  
+  var totalWords = 0;
+  pairs.forEach(function(p) {
+    var words = (p.de || '').split(/\s+/).filter(Boolean).length;
+    totalWords += words;
+  });
+  
+  if (totalWords === 0) {
+    console.warn('No words found in transcript');
+    return;
+  }
+  
+  var audioDuration = audioEl.duration || 0;
+  if (!audioDuration || isNaN(audioDuration)) {
+    console.warn('Audio duration not available');
+    return;
+  }
+  
+  var currentTime = 0;
+  var timePerWord = audioDuration / totalWords;
+  
+  for (var pairIdx = 0; pairIdx < pairs.length; pairIdx++) {
+    var germanWords = (pairs[pairIdx].de || '').split(/\s+/).filter(Boolean);
+    
+    germanWords.forEach(function(w) {
+      wordTimings.push({
+        word: w,
+        start: currentTime,
+        end: currentTime + timePerWord,
+        lineIdx: pairIdx
+      });
+      currentTime += timePerWord;
+    });
+  }
+  
+  console.log('Built proportional timings:', wordTimings.length, 'words');
+}
+
+function makeClickable(sentence) {
+  return sentence.replace(/([^\s]+)/g, function(token) {
+    var clean = token.replace(/[.,!?;:"""''«»()\[\]–—]/g,'').trim();
+    if (!clean) return esc(token);
+    return '<span class="de-word" data-word="' + esc(clean) + '">' + esc(token) + '</span>';
+  });
+}
+
+var currentSyncTimer = null;
+
+function startLyricSync() {
+  if (currentSyncTimer) clearInterval(currentSyncTimer);
+  
+  currentSyncTimer = setInterval(function() {
+    if (!audioEl || audioEl.paused) return;
+    
+    var currentTime = audioEl.currentTime;
+    var activeLineIdx = -1;
+    
+    for (var i = wordTimings.length - 1; i >= 0; i--) {
+      if (wordTimings[i].start <= currentTime) {
+        activeLineIdx = wordTimings[i].lineIdx;
+        break;
+      }
+    }
+    
+    var allLines = document.querySelectorAll('.lyric-line');
+    allLines.forEach(function(l) {
+      l.classList.remove('active-line');
+    });
+    
+    if (activeLineIdx >= 0) {
+      var activeEl = document.querySelector('[data-line-idx="' + activeLineIdx + '"]');
+      if (activeEl) {
+        activeEl.classList.add('active-line');
+        activeEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }, 50);
+}
+
+function stopLyricSync() {
+  if (currentSyncTimer) {
+    clearInterval(currentSyncTimer);
+    currentSyncTimer = null;
+  }
+}
+
+// ── Definition popup ──────────────────────────────────────────────────────
+var popup = document.getElementById('defPopup');
+document.getElementById('defClose').addEventListener('click', function(){ popup.style.display='none'; });
+document.addEventListener('click', function(e) {
+  if (popup.style.display==='block' && !popup.contains(e.target) && !e.target.classList.contains('de-word'))
+    popup.style.display='none';
+});
+
+async function showDef(word, e) {
+  document.getElementById('defWord').textContent = word;
+  document.getElementById('defPos').textContent = '';
+  document.getElementById('defMeaning').innerHTML = '<span style="color:var(--text3);font-size:0.88em;">Looking up…</span>';
+  document.getElementById('defExample').style.display = 'none';
+  positionPopup(e);
+  popup.style.display = 'block';
+
+  var key2 = word.toLowerCase();
+  if (defCache[key2]) { fillDef(defCache[key2]); return; }
+  var apiKey = getKey('claudeKey');
+  if (!apiKey) { document.getElementById('defMeaning').textContent = 'No API key set.'; return; }
+  try {
+    var res = await claudeAPI(apiKey, 'Define the German word "'+word+'" for a B1-B2 learner. Reply ONLY as JSON (no markdown): {"pos":"noun/verb/adj/adv/prep/conj/article/pronoun","meaning":"English definition","example":"short German example sentence"}', 200);
+    var raw = res.content[0].text.trim().replace(/^```json\s*/i,'').replace(/^```\s*/i,'').replace(/```\s*$/,'').trim();
+    var s = raw.indexOf('{'), en2 = raw.lastIndexOf('}');
+    if (s!==-1&&en2!==-1) raw=raw.slice(s,en2+1);
+    var def = JSON.parse(raw);
+    defCache[key2] = def;
+    fillDef(def);
+  } catch(err) { document.getElementById('defMeaning').textContent = 'Could not load definition.'; }
+}
+
+function fillDef(def) {
+  document.getElementById('defPos').textContent = def.pos || '';
+  document.getElementById('defMeaning').textContent = def.meaning || '';
+  if (def.example) { document.getElementById('defExample').textContent = def.example; document.getElementById('defExample').style.display='block'; }
+}
+
+function positionPopup(e) {
+  var pw=300, ph=160, m=14;
+  var x = e.clientX+m, y = e.clientY+m;
+  if (x+pw > window.innerWidth-m) x = e.clientX-pw-m;
+  if (y+ph > window.innerHeight-m) y = e.clientY-ph-m;
+  popup.style.left = (x+window.scrollX)+'px';
+  popup.style.top  = (y+window.scrollY)+'px';
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────
+function claudeAPI(key, prompt, maxTokens) {
+  return fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'x-api-key':key,
+      'anthropic-version':'2023-06-01',
+      'anthropic-dangerous-direct-browser-access':'true'
+    },
+    body: JSON.stringify({ model:'claude-sonnet-4-6', max_tokens: maxTokens, messages:[{role:'user',content:prompt}] })
+  }).then(function(r) {
+    if (!r.ok) return r.json().then(function(e){ throw new Error(e.error ? e.error.message : 'API error '+r.status); });
+    return r.json();
+  });
+}
+
+function setStatus(id, type, html) {
+  var el = document.getElementById(id);
+  el.className = 'status-banner' + (type ? ' ' + type + ' show' : '');
+  el.innerHTML = html;
+}
+
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function fmt(s) {
+  if (!s||isNaN(s)) return '0:00';
+  var m=Math.floor(s/60), sec=Math.floor(s%60);
+  return m+':'+(sec<10?'0':'')+sec;
+}
+
+function cap(s) { return s.charAt(0).toUpperCase()+s.slice(1); }
+</script>
+</body>
+</html>
