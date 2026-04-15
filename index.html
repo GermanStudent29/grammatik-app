@@ -86,12 +86,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 
 /* ── ─── SPOTIFY LYRICS STYLE ─── ── */
 .spotify-lyrics-wrap{padding:12px 0;}
-.lyric-line{padding:10px 0;cursor:default;transition:color 0.2s;color:var(--text3);}
+.lyric-line{padding:10px 0;cursor:default;transition:color 0.2s;}
 .lyric-line.active-line{color:#fff;}
-.lyric-line.active-line .lyric-de{color:#fff;font-weight:700;}
-.lyric-line.active-line .lyric-en{color:var(--text2);}
-.lyric-de{font-size:1.28em;font-weight:600;line-height:1.5;color:var(--text3);letter-spacing:-0.2px;transition:color 0.2s, font-weight 0.2s;}
-.lyric-en{font-size:0.88em;font-weight:400;color:#444;line-height:1.5;margin-top:3px;font-style:normal;transition:color 0.2s;}
+.lyric-de{font-size:1.28em;font-weight:700;line-height:1.5;color:#fff;letter-spacing:-0.2px;}
+.lyric-en{font-size:0.88em;font-weight:400;color:var(--text3);line-height:1.5;margin-top:3px;font-style:normal;}
 .lyric-line:not(.active-line) .lyric-de{color:var(--text3);font-weight:600;}
 .lyric-line:not(.active-line) .lyric-en{color:#444;}
 
@@ -170,6 +168,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 
 /* ── translinear container ── */
 .translinear-bg{background:var(--bg2);border-radius:var(--radius);padding:32px 36px;min-height:200px;}
+
+/* ── source tabs ── */
+.source-tab{padding:8px 0;border-bottom:2px solid transparent;color:var(--text2);background:none;border:none;cursor:pointer;font-size:0.9em;font-weight:600;transition:all 0.15s;}
+.source-tab.active{color:#fff;border-bottom-color:var(--green);}
+.source-tabs{display:flex;gap:8px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:16px;}
+.source-content{display:none;}
+.source-content.active{display:block;}
 
 @media(max-width:640px){
   .sidebar{display:none;}
@@ -253,53 +258,82 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 
       <!-- ══ LISTENING TAB ══ -->
       <div id="tab-listening" class="tab-page">
-        <div class="section-head">Upload German Audio</div>
-        <div class="section-sub">Whisper transcribes, then Claude builds a Spotify-style lyric view with clickable definitions.</div>
+        <div class="section-head">Download German Audio</div>
+        <div class="section-sub">Choose from curated German sources, paste a podcast RSS feed, or upload your own audio file.</div>
 
         <div class="card">
-          <p class="field-hint">MP3, M4A, WAV, OGG, WEBM · needs OpenAI & Claude keys.</p>
-          
-          <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.05);">
-            <label style="display:block;margin-bottom:8px;font-size:0.85em;color:var(--text2);font-weight:600;">Paste a URL (Spotify, YouTube, SoundCloud, etc.)</label>
-            <div style="display:flex;gap:10px;align-items:center;">
-              <input type="text" id="audioUrl" class="field-input" placeholder="https://open.spotify.com/track/... or https://www.youtube.com/watch?v=..." style="flex:1;"/>
-              <button class="btn btn-green" id="downloadAudioBtn" type="button">↓ Download</button>
-            </div>
-            <div id="downloadStatus" class="status-banner"></div>
-          </div>
-          
-          <label style="display:block;margin-bottom:8px;font-size:0.85em;color:var(--text2);font-weight:600;">Or upload directly</label>
-          <div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
-            <label for="audioFile" class="upload-btn">📂 Choose Audio File</label>
-            <input type="file" id="audioFile" accept="audio/*" style="display:none;"/>
-            <span id="audioFilenameInline" class="inline-filename"></span>
+          <div class="source-tabs">
+            <button class="source-tab active" data-source="podcast">🎙️ Podcast Feed</button>
+            <button class="source-tab" data-source="dw">🇩🇪 Deutsche Welle</button>
+            <button class="source-tab" data-source="upload">📂 Upload File</button>
           </div>
 
-          <div id="playerSection" style="display:none;">
-            <div class="audio-player-bar">
-              <div class="audio-name"><span class="audio-name-icon">♫</span><span id="audioFilename"></span></div>
-              <div class="player-row">
-                <button class="play-btn" id="playBtn" type="button">▶</button>
-                <div class="seek-track">
-                  <div class="seek-fill" id="seekFill" style="width:0%"></div>
-                  <input type="range" class="seek-bar" id="seekBar" value="0" min="0" max="100" step="0.1"/>
-                </div>
-                <span class="time-disp" id="timeDisplay">0:00 / 0:00</span>
+          <!-- ════ PODCAST RSS TAB ════ -->
+          <div id="source-podcast" class="source-content active">
+            <div style="margin-bottom:16px;">
+              <label for="podcastFeedUrl" style="color:var(--text2);font-size:0.9em;display:block;margin-bottom:8px;">Podcast RSS Feed URL</label>
+              <div class="field-row">
+                <input type="url" id="podcastFeedUrl" class="field-input" placeholder="https://example.com/podcast/feed.xml" autocomplete="off"/>
+                <button class="btn btn-green" id="parseFeedBtn" type="button">📖 Load Episodes</button>
               </div>
-              <div class="speed-row">
-                <span class="speed-tag">Speed</span>
-                <button class="speed-btn" data-speed="0.5" type="button">0.5×</button>
-                <button class="speed-btn active" data-speed="1" type="button">1×</button>
-                <button class="speed-btn" data-speed="1.25" type="button">1.25×</button>
-                <button class="speed-btn" data-speed="1.5" type="button">1.5×</button>
-              </div>
+              <p class="field-hint">Paste the RSS feed URL of any podcast. Popular German podcasts are listed below.</p>
             </div>
-            <div class="btn-group">
-              <button class="btn btn-green" id="transcribeBtn" type="button">🎙 Transcribe with Whisper</button>
-              <button class="btn btn-ghost" id="clearListeningBtn" type="button">Clear</button>
+
+            <div style="margin-bottom:20px;padding:14px;background:var(--bg3);border-radius:6px;border:1px solid rgba(255,255,255,0.05);">
+              <div style="color:var(--text2);font-size:0.85em;margin-bottom:10px;font-weight:600;">💡 Popular German Podcasts:</div>
+              <div id="popularPodcastsList" style="display:flex;flex-direction:column;gap:8px;"></div>
             </div>
-            <div id="transcribeStatus" class="status-banner"></div>
+
+            <div id="feedParseStatus" class="status-banner"></div>
+
+            <div id="episodesList" style="display:none;margin-top:16px;">
+              <div style="color:var(--text2);font-size:0.9em;margin-bottom:12px;font-weight:600;">Recent Episodes:</div>
+              <div id="episodesListContent" style="display:flex;flex-direction:column;gap:10px;max-height:400px;overflow-y:auto;"></div>
+            </div>
           </div>
+
+          <!-- ════ DEUTSCHE WELLE TAB ════ -->
+          <div id="source-dw" class="source-content">
+            <p class="field-hint" style="margin-bottom:16px;">Deutsche Welle offers high-quality German learning content perfect for B1-B2 learners.</p>
+            <div id="dwSourcesList" style="display:flex;flex-direction:column;gap:12px;"></div>
+            <div id="dwStatus" class="status-banner" style="margin-top:16px;"></div>
+          </div>
+
+          <!-- ════ UPLOAD FILE TAB ════ -->
+          <div id="source-upload" class="source-content">
+            <p class="field-hint" style="margin-bottom:12px;">Upload your own German audio file (MP3, M4A, WAV, OGG, WEBM):</p>
+            <div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+              <label for="audioFile" class="upload-btn">📂 Choose Audio File</label>
+              <input type="file" id="audioFile" accept="audio/*" style="display:none;"/>
+              <span id="audioFilenameInline" class="inline-filename"></span>
+            </div>
+          </div>
+        </div>
+
+        <div id="playerSection" style="display:none;">
+          <div class="audio-player-bar">
+            <div class="audio-name"><span class="audio-name-icon">♫</span><span id="audioFilename"></span></div>
+            <div class="player-row">
+              <button class="play-btn" id="playBtn" type="button">▶</button>
+              <div class="seek-track">
+                <div class="seek-fill" id="seekFill" style="width:0%"></div>
+                <input type="range" class="seek-bar" id="seekBar" value="0" min="0" max="100" step="0.1"/>
+              </div>
+              <span class="time-disp" id="timeDisplay">0:00 / 0:00</span>
+            </div>
+            <div class="speed-row">
+              <span class="speed-tag">Speed</span>
+              <button class="speed-btn" data-speed="0.5" type="button">0.5×</button>
+              <button class="speed-btn active" data-speed="1" type="button">1×</button>
+              <button class="speed-btn" data-speed="1.25" type="button">1.25×</button>
+              <button class="speed-btn" data-speed="1.5" type="button">1.5×</button>
+            </div>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-green" id="transcribeBtn" type="button">🎙 Transcribe with Whisper</button>
+            <button class="btn btn-ghost" id="clearListeningBtn" type="button">Clear</button>
+          </div>
+          <div id="transcribeStatus" class="status-banner"></div>
         </div>
 
         <div id="rawTranscriptSection" style="display:none;" class="card">
@@ -370,12 +404,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 'use strict';
 
 // ── Configuration ──────────────────────────────────────────────────────────
-// Update this to your hosted backend URL (e.g., https://your-server.onrender.com)
-var BACKEND_URL = 'https://grammatik-backend.onrender.com'; // Change this when deploying
+const BACKEND_URL = 'http://localhost:3001'; // Change to your backend URL
 
 // ── Titles per tab ──────────────────────────────────────────────────────────
 var TAB_META = {
-  essay:     {title:'Essay',     sub:'German Writing Practice'},
+  essay:     {title:'Essay',     sub:'German B1–B2 Writing Practice'},
   listening: {title:'Listening', sub:'Upload audio and explore translinear transcripts'},
   history:   {title:'History',   sub:'All your past submissions'},
   analytics: {title:'Analytics', sub:'See where you make the most errors'},
@@ -401,8 +434,15 @@ var TOPICS = [
 var currentTopic = '';
 var chartInstance = null;
 var defCache = {};
-var currentWhisperData = null;
-var wordTimings = [];
+var currentAudioFile = null;
+var currentObjectURL = null;
+var audioEl = document.getElementById('audioEl');
+
+// ── Hardcoded API Keys (Personal Use) ─────────────────────────────────────
+var HARDCODED_KEYS = {
+  claudeKey: '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',
+  openaiKey: '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'
+};
 
 // ── Storage ──────────────────────────────────────────────────────────────
 function loadData() {
@@ -413,7 +453,7 @@ function saveData(d) { localStorage.setItem('grammatik_v2', JSON.stringify(d)); 
 function getKey(k) { 
   var stored = (loadData()[k] || '').trim();
   if (stored) return stored;
-  return '';
+  return HARDCODED_KEYS[k] || '';
 }
 function setKey(k, v) { var d=loadData(); d[k]=v; saveData(d); }
 function getSubs() { return loadData().submissions || []; }
@@ -443,6 +483,7 @@ function setupKeyUI(inputId, btnId, statusId, storeKey) {
   if (saved) { 
     input.value = saved; 
     status.classList.add('show');
+    if (!loadData()[storeKey]) setKey(storeKey, saved);
   }
   btn.addEventListener('click', function() {
     var v = input.value.trim();
@@ -579,81 +620,229 @@ document.getElementById('clearAllBtn').addEventListener('click', function() {
   if (confirm('Delete all saved data?')) { localStorage.clear(); location.reload(); }
 });
 
-// ── Audio URL Download ────────────────────────────────────────────────────
-var currentAudioFile = null;
-var currentObjectURL = null;
+// ── LISTENING: Source Tab Switching ────────────────────────────────────────
+document.querySelectorAll('.source-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    var source = this.dataset.source;
+    
+    document.querySelectorAll('.source-tab').forEach(function(t) {
+      t.classList.remove('active');
+    });
+    this.classList.add('active');
+    
+    document.querySelectorAll('.source-content').forEach(function(c) {
+      c.classList.remove('active');
+    });
+    document.getElementById('source-' + source).classList.add('active');
+    
+    if (source === 'dw') loadDWSources();
+    if (source === 'podcast') loadPopularPodcasts();
+  });
+});
 
-document.getElementById('downloadAudioBtn').addEventListener('click', async function() {
-  var url = document.getElementById('audioUrl').value.trim();
-  if (!url) { alert('Please paste a URL.'); return; }
+// ── LISTENING: Podcast RSS ─────────────────────────────────────────────────
+function loadPopularPodcasts() {
+  var list = document.getElementById('popularPodcastsList');
+  if (list.children.length > 0) return;
+
+  fetch(BACKEND_URL + '/api/popular-german-podcasts')
+    .then(r => r.json())
+    .then(data => {
+      var html = data.podcasts.map(p => `
+        <div style="padding:8px;background:var(--bg2);border-radius:4px;cursor:pointer;transition:background 0.15s;" onclick="
+          document.getElementById('podcastFeedUrl').value='${esc(p.feedUrl)}';
+          document.getElementById('parseFeedBtn').click();
+        ">
+          <div style="color:#fff;font-size:0.85em;font-weight:500;">${esc(p.name)}</div>
+          <div style="color:var(--text3);font-size:0.75em;margin-top:2px;">${esc(p.description)}</div>
+          <div style="color:var(--text3);font-size:0.72em;margin-top:4px;"><strong>Level:</strong> ${p.difficulty}</div>
+        </div>
+      `).join('');
+      list.innerHTML = html;
+    })
+    .catch(err => {
+      console.error('Failed to load podcasts:', err);
+      list.innerHTML = '<p style="color:var(--text3);font-size:0.85em;">Failed to load podcast list. Paste a feed URL directly above.</p>';
+    });
+}
+
+document.getElementById('parseFeedBtn').addEventListener('click', async function() {
+  var feedUrl = document.getElementById('podcastFeedUrl').value.trim();
   
+  if (!feedUrl) {
+    setStatus('feedParseStatus', 'error', '⚠ Please paste a podcast feed URL');
+    return;
+  }
+
   var btn = this;
-  btn.textContent = 'Downloading…'; btn.disabled = true;
-  setStatus('downloadStatus', 'info', '<span class="spin"></span>Downloading audio (this may take a minute)…');
-  
+  btn.textContent = 'Loading…';
+  btn.disabled = true;
+  setStatus('feedParseStatus', 'info', '<span class="spin"></span>Parsing podcast feed…');
+
+  try {
+    var response = await fetch(BACKEND_URL + '/api/parse-podcast-feed', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ feedUrl })
+    });
+
+    var data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to parse feed');
+    }
+
+    var episodesList = data.episodes.map((ep, idx) => `
+      <div style="padding:12px;background:var(--bg2);border-radius:6px;border:1px solid rgba(255,255,255,0.05);">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+          <div style="flex:1;">
+            <div style="color:#fff;font-size:0.9em;font-weight:600;margin-bottom:4px;">${esc(ep.title)}</div>
+            <div style="color:var(--text3);font-size:0.8em;margin-bottom:6px;">${esc(ep.description)}</div>
+            <div style="color:var(--text3);font-size:0.75em;">${esc(ep.pubDate || 'Date unknown')}</div>
+          </div>
+          <button class="btn btn-green" style="white-space:nowrap;" onclick="downloadPodcastEpisode('${esc(ep.audioUrl)}', '${esc(ep.title)}')">
+            ▼
+          </button>
+        </div>
+      </div>
+    `).join('');
+
+    document.getElementById('episodesListContent').innerHTML = episodesList;
+    document.getElementById('episodesList').style.display = 'block';
+    setStatus('feedParseStatus', 'success', `✓ Found ${data.episodes.length} episodes`);
+
+  } catch (error) {
+    console.error('Feed parse error:', error);
+    setStatus('feedParseStatus', 'error', '⚠ ' + esc(error.message));
+  }
+
+  btn.textContent = '📖 Load Episodes';
+  btn.disabled = false;
+});
+
+function downloadPodcastEpisode(audioUrl, title) {
+  downloadAudioFromUrl(audioUrl, title);
+}
+
+// ── LISTENING: Deutsche Welle ──────────────────────────────────────────────
+function loadDWSources() {
+  var list = document.getElementById('dwSourcesList');
+  if (list.children.length > 0) return;
+
+  list.innerHTML = '<div style="color:var(--text3);"><span class="spin"></span> Loading Deutsche Welle sources…</div>';
+
+  fetch(BACKEND_URL + '/api/dw-sources')
+    .then(r => r.json())
+    .then(data => {
+      var html = data.sources.map(source => `
+        <div style="padding:14px;background:var(--bg2);border-radius:6px;border:1px solid rgba(255,255,255,0.05);cursor:pointer;transition:background 0.15s;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+          <div>
+            <div style="color:#fff;font-size:0.95em;font-weight:600;margin-bottom:4px;">${esc(source.name)}</div>
+            <div style="color:var(--text3);font-size:0.85em;">${esc(source.description)}</div>
+          </div>
+          <button class="btn btn-green" onclick="fetchDWSource('${source.id}')">View</button>
+        </div>
+      `).join('');
+      list.innerHTML = html;
+    })
+    .catch(err => {
+      console.error('Failed to load DW sources:', err);
+      list.innerHTML = '<p style="color:#ff9999;">Failed to load Deutsche Welle sources.</p>';
+    });
+}
+
+function fetchDWSource(sourceId) {
+  setStatus('dwStatus', 'info', '<span class="spin"></span>Loading Deutsche Welle content…');
+
+  fetch(BACKEND_URL + '/api/dw-sources/' + sourceId)
+    .then(r => r.json())
+    .then(data => {
+      if (data.episodes) {
+        var html = data.episodes.map(ep => `
+          <div style="padding:10px;background:var(--bg3);border-radius:4px;margin-bottom:8px;">
+            <div style="color:#fff;font-size:0.88em;font-weight:500;margin-bottom:3px;">${esc(ep.title)}</div>
+            <button class="btn btn-green" style="font-size:0.8em;padding:6px 14px;margin-top:6px;" onclick="downloadAudioFromUrl('${esc(ep.audioUrl)}', '${esc(ep.title)}')">
+              ▼ Download
+            </button>
+          </div>
+        `).join('');
+        setStatus('dwStatus', 'success', '✓ Found ' + data.episodes.length + ' episodes from ' + esc(data.name));
+      } else {
+        setStatus('dwStatus', 'info', 'Visit this source to find the RSS feed for detailed episodes');
+      }
+    })
+    .catch(err => {
+      console.error('Failed to fetch DW source:', err);
+      setStatus('dwStatus', 'error', '⚠ ' + esc(err.message));
+    });
+}
+
+// ── LISTENING: Direct Audio Download ──────────────────────────────────────
+async function downloadAudioFromUrl(audioUrl, title) {
+  document.getElementById('playerSection').style.display = 'block';
+  document.getElementById('playerSection').scrollIntoView({ behavior: 'smooth' });
+
+  setStatus('transcribeStatus', 'info', '<span class="spin"></span>Downloading audio…');
+
   try {
     var response = await fetch(BACKEND_URL + '/api/download-audio', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url: url })
+      body: JSON.stringify({ url: audioUrl })
     });
-    
+
     if (!response.ok) {
-      var error = await response.json();
-      throw new Error(error.error || 'Download failed');
+      var errorData = await response.json();
+      throw new Error(errorData.error || `Error: ${response.status}`);
     }
-    
+
     var blob = await response.blob();
-    var fileName = 'audio.mp3';
-    var file = new File([blob], fileName, { type: 'audio/mpeg' });
-    
-    currentAudioFile = file;
+    var audioUrl2 = URL.createObjectURL(blob);
+
+    currentAudioFile = { name: title || 'Audio', size: blob.size };
     if (currentObjectURL) URL.revokeObjectURL(currentObjectURL);
-    currentObjectURL = URL.createObjectURL(blob);
-    audioEl.src = currentObjectURL;
+    currentObjectURL = audioUrl2;
+
+    audioEl.src = audioUrl2;
     audioEl.load();
-    
-    document.getElementById('audioFilename').textContent = fileName;
-    document.getElementById('audioFilenameInline').textContent = '✓ ' + fileName;
-    document.getElementById('playerSection').style.display = 'block';
-    document.getElementById('timeDisplay').textContent = '0:00 / 0:00';
-    document.getElementById('playBtn').textContent = '▶';
-    document.getElementById('seekFill').style.width = '0%';
-    setStatus('downloadStatus', 'success', '✓ Downloaded! Now transcribe with Whisper.');
-    document.getElementById('audioUrl').value = '';
-    
-  } catch(err) {
-    console.error('Download error:', err);
-    setStatus('downloadStatus', 'error', '⚠ ' + esc(err.message));
+    document.getElementById('audioFilename').textContent = title || 'Downloaded Audio';
+    document.getElementById('audioFilenameInline').textContent = title || 'Downloaded Audio';
+
+    setStatus('transcribeStatus', 'success', '✓ Audio downloaded! Click "Transcribe" to proceed.');
+
+  } catch (error) {
+    console.error('Download error:', error);
+    setStatus('transcribeStatus', 'error', '⚠ ' + esc(error.message));
   }
-  
-  btn.textContent = '↓ Download'; btn.disabled = false;
-});
+}
 
-// ── Audio player ──────────────────────────────────────────────────────────
-var audioEl = document.getElementById('audioEl');
-
+// ── Audio Player ───────────────────────────────────────────────────────────
 document.getElementById('audioFile').addEventListener('change', function() {
-  var file = this.files[0]; if (!file) return;
+  var file = this.files[0];
+  if (!file) return;
+
   currentAudioFile = file;
   if (currentObjectURL) URL.revokeObjectURL(currentObjectURL);
   currentObjectURL = URL.createObjectURL(file);
-  audioEl.src = currentObjectURL; audioEl.load();
+
+  audioEl.src = currentObjectURL;
+  audioEl.load();
   document.getElementById('audioFilename').textContent = file.name;
   document.getElementById('audioFilenameInline').textContent = file.name;
   document.getElementById('playerSection').style.display = 'block';
   document.getElementById('timeDisplay').textContent = '0:00 / 0:00';
   document.getElementById('playBtn').textContent = '▶';
   document.getElementById('seekFill').style.width = '0%';
+  
   setStatus('transcribeStatus', '', '');
   document.getElementById('rawTranscriptSection').style.display = 'none';
   document.getElementById('transcriptSection').style.display = 'none';
 });
 
-audioEl.addEventListener('loadedmetadata', function(){ document.getElementById('timeDisplay').textContent = '0:00 / ' + fmt(audioEl.duration); });
-audioEl.addEventListener('play', function() { startLyricSync(); });
-audioEl.addEventListener('pause', function() { stopLyricSync(); });
-audioEl.addEventListener('ended', function() { stopLyricSync(); document.getElementById('playBtn').textContent = '▶'; });
+audioEl.addEventListener('loadedmetadata', function() {
+  document.getElementById('timeDisplay').textContent = '0:00 / ' + fmt(audioEl.duration);
+});
+
 audioEl.addEventListener('timeupdate', function() {
   var dur = audioEl.duration;
   if (dur && !isNaN(dur)) {
@@ -664,41 +853,53 @@ audioEl.addEventListener('timeupdate', function() {
   }
 });
 
+audioEl.addEventListener('ended', function() {
+  document.getElementById('playBtn').textContent = '▶';
+});
+
 document.getElementById('playBtn').addEventListener('click', function() {
   if (!audioEl.src) return;
-  if (audioEl.paused) { audioEl.play().then(function(){ document.getElementById('playBtn').textContent = '⏸'; }); }
-  else { audioEl.pause(); document.getElementById('playBtn').textContent = '▶'; }
+  if (audioEl.paused) {
+    audioEl.play().then(function() {
+      document.getElementById('playBtn').textContent = '⏸';
+    });
+  } else {
+    audioEl.pause();
+    document.getElementById('playBtn').textContent = '▶';
+  }
 });
+
 document.getElementById('seekBar').addEventListener('input', function() {
   var dur = audioEl.duration;
-  if (dur && !isNaN(dur)) audioEl.currentTime = (this.value/100)*dur;
+  if (dur && !isNaN(dur)) audioEl.currentTime = (this.value / 100) * dur;
 });
+
 document.querySelectorAll('.speed-btn').forEach(function(b) {
   b.addEventListener('click', function() {
     audioEl.playbackRate = parseFloat(this.dataset.speed);
-    document.querySelectorAll('.speed-btn').forEach(function(x){ x.classList.remove('active'); });
+    document.querySelectorAll('.speed-btn').forEach(function(x) { x.classList.remove('active'); });
     this.classList.add('active');
   });
 });
 
 document.getElementById('clearListeningBtn').addEventListener('click', function() {
-  stopLyricSync();
-  audioEl.pause(); audioEl.src = '';
+  audioEl.pause();
+  audioEl.src = '';
   currentAudioFile = null;
-  if (currentObjectURL) { URL.revokeObjectURL(currentObjectURL); currentObjectURL = null; }
+  if (currentObjectURL) {
+    URL.revokeObjectURL(currentObjectURL);
+    currentObjectURL = null;
+  }
   document.getElementById('audioFile').value = '';
   document.getElementById('audioFilenameInline').textContent = '';
   document.getElementById('playerSection').style.display = 'none';
   document.getElementById('rawTranscriptSection').style.display = 'none';
   document.getElementById('transcriptSection').style.display = 'none';
-  setStatus('transcribeStatus','','');
+  setStatus('transcribeStatus', '', '');
   document.getElementById('playBtn').textContent = '▶';
-  defCache = {};
-  currentWhisperData = null;
-  wordTimings = [];
 });
 
-// ── Whisper ───────────────────────────────────────────────────────────────
+// ── Whisper Transcription ──────────────────────────────────────────────────
 document.getElementById('transcribeBtn').addEventListener('click', async function() {
   var openaiKey = getKey('openaiKey');
   if (!openaiKey) { alert('Please save your OpenAI API key first.'); return; }
@@ -714,8 +915,6 @@ document.getElementById('transcribeBtn').addEventListener('click', async functio
     fd.append('file', currentAudioFile);
     fd.append('model', 'whisper-1');
     fd.append('language', 'de');
-    fd.append('response_format', 'verbose_json');
-    fd.append('timestamp_granularities', 'word');
     var r = await fetch('https://api.openai.com/v1/audio/transcriptions', {
       method:'POST', headers:{'Authorization':'Bearer '+openaiKey}, body:fd
     });
@@ -723,10 +922,6 @@ document.getElementById('transcribeBtn').addEventListener('click', async functio
     var json = await r.json();
     var text = (json.text||'').trim();
     if (!text) throw new Error('Whisper returned empty transcription.');
-    
-    console.log('Whisper response:', json);
-    
-    currentWhisperData = json;
     setStatus('transcribeStatus','success','✓ Transcribed — ' + text.split(/\s+/).filter(Boolean).length + ' words. Review below, then generate the lyrics view.');
     document.getElementById('rawTranscriptEdit').value = text;
     document.getElementById('rawTranscriptSection').style.display = 'block';
@@ -744,7 +939,7 @@ document.getElementById('generateTranslinearBtn').addEventListener('click', asyn
   var rawText = document.getElementById('rawTranscriptEdit').value.trim();
   if (!rawText) { alert('No transcript text to translate.'); return; }
 
-  var btn = document.getElementById('generateTranslinearBtn');
+  var btn = this;
   btn.textContent = 'Translating…'; btn.disabled = true;
 
   setStatus('translinearStatus', 'info', '<span class="spin"></span>Claude is translating…');
@@ -786,13 +981,9 @@ document.getElementById('generateTranslinearBtn').addEventListener('click', asyn
 
 function renderTranscript(pairs) {
   if (!pairs || !pairs.length) { document.getElementById('transcriptContent').innerHTML='<p style="color:var(--text3);">No content.</p>'; return; }
-  
-  buildWordTimings(pairs);
-  console.log('Rendering transcript with', pairs.length, 'lines');
-  
   var html = '';
   pairs.forEach(function(p, idx) {
-    html += '<div class="lyric-line" data-line-idx="' + idx + '">';
+    html += '<div class="lyric-line' + (idx===0?' active-line':'') + '" onclick="activateLine(this)">';
     html += '<div class="lyric-de">' + makeClickable(p.de||'') + '</div>';
     html += '<div class="lyric-en">' + esc(p.en||'') + '</div>';
     html += '</div>';
@@ -803,128 +994,9 @@ function renderTranscript(pairs) {
   });
 }
 
-function buildWordTimings(pairs) {
-  wordTimings = [];
-  
-  if (currentWhisperData && currentWhisperData.segments && Array.isArray(currentWhisperData.segments)) {
-    console.log('Found Whisper segments:', currentWhisperData.segments.length);
-    
-    var whisperSegments = currentWhisperData.segments;
-    
-    var allWords = [];
-    whisperSegments.forEach(function(seg) {
-      if (seg.text) {
-        var words = seg.text.split(/\s+/).filter(Boolean);
-        var segStart = seg.start || 0;
-        var segEnd = seg.end || segStart;
-        var segDuration = segEnd - segStart;
-        var timePerWord = segDuration / Math.max(words.length, 1);
-        
-        words.forEach(function(word, idx) {
-          allWords.push({
-            word: word,
-            start: segStart + (idx * timePerWord),
-            end: segStart + ((idx + 1) * timePerWord)
-          });
-        });
-      }
-    });
-    
-    console.log('Extracted', allWords.length, 'words from segments with timings');
-    
-    if (allWords.length > 0) {
-      var allWordIdx = 0;
-      var matched = 0;
-      
-      for (var pairIdx = 0; pairIdx < pairs.length && allWordIdx < allWords.length; pairIdx++) {
-        var germanText = pairs[pairIdx].de || '';
-        var germanWords = germanText.split(/\s+/).filter(Boolean);
-        
-        for (var i = 0; i < germanWords.length && allWordIdx < allWords.length; i++) {
-          var germanWord = germanWords[i].replace(/[.,!?;:"""''«»()\[\]–—]/g,'').toLowerCase().trim();
-          var whisperWord = allWords[allWordIdx].word.replace(/[.,!?;:"""''«»()\[\]–—]/g,'').toLowerCase().trim();
-          
-          if (whisperWord === germanWord) {
-            wordTimings.push({
-              word: allWords[allWordIdx].word,
-              start: allWords[allWordIdx].start,
-              end: allWords[allWordIdx].end,
-              lineIdx: pairIdx
-            });
-            matched++;
-            allWordIdx++;
-          } else {
-            if (allWordIdx + 1 < allWords.length) {
-              var nextWhisperWord = allWords[allWordIdx + 1].word.replace(/[.,!?;:"""''«»()\[\]–—]/g,'').toLowerCase().trim();
-              if (nextWhisperWord === germanWord) {
-                allWordIdx++;
-                wordTimings.push({
-                  word: allWords[allWordIdx].word,
-                  start: allWords[allWordIdx].start,
-                  end: allWords[allWordIdx].end,
-                  lineIdx: pairIdx
-                });
-                matched++;
-                allWordIdx++;
-              } else {
-                wordTimings.push({
-                  word: allWords[allWordIdx].word,
-                  start: allWords[allWordIdx].start,
-                  end: allWords[allWordIdx].end,
-                  lineIdx: pairIdx
-                });
-                matched++;
-                allWordIdx++;
-              }
-            } else {
-              allWordIdx++;
-            }
-          }
-        }
-      }
-      
-      console.log('Mapped', matched, 'words from segments to lines');
-      if (wordTimings.length > 0) return;
-    }
-  }
-  
-  console.log('Falling back to proportional timing');
-  
-  var totalWords = 0;
-  pairs.forEach(function(p) {
-    var words = (p.de || '').split(/\s+/).filter(Boolean).length;
-    totalWords += words;
-  });
-  
-  if (totalWords === 0) {
-    console.warn('No words found in transcript');
-    return;
-  }
-  
-  var audioDuration = audioEl.duration || 0;
-  if (!audioDuration || isNaN(audioDuration)) {
-    console.warn('Audio duration not available');
-    return;
-  }
-  
-  var currentTime = 0;
-  var timePerWord = audioDuration / totalWords;
-  
-  for (var pairIdx = 0; pairIdx < pairs.length; pairIdx++) {
-    var germanWords = (pairs[pairIdx].de || '').split(/\s+/).filter(Boolean);
-    
-    germanWords.forEach(function(w) {
-      wordTimings.push({
-        word: w,
-        start: currentTime,
-        end: currentTime + timePerWord,
-        lineIdx: pairIdx
-      });
-      currentTime += timePerWord;
-    });
-  }
-  
-  console.log('Built proportional timings:', wordTimings.length, 'words');
+function activateLine(el) {
+  document.querySelectorAll('.lyric-line').forEach(function(l){ l.classList.remove('active-line'); });
+  el.classList.add('active-line');
 }
 
 function makeClickable(sentence) {
@@ -933,46 +1005,6 @@ function makeClickable(sentence) {
     if (!clean) return esc(token);
     return '<span class="de-word" data-word="' + esc(clean) + '">' + esc(token) + '</span>';
   });
-}
-
-var currentSyncTimer = null;
-
-function startLyricSync() {
-  if (currentSyncTimer) clearInterval(currentSyncTimer);
-  
-  currentSyncTimer = setInterval(function() {
-    if (!audioEl || audioEl.paused) return;
-    
-    var currentTime = audioEl.currentTime;
-    var activeLineIdx = -1;
-    
-    for (var i = wordTimings.length - 1; i >= 0; i--) {
-      if (wordTimings[i].start <= currentTime) {
-        activeLineIdx = wordTimings[i].lineIdx;
-        break;
-      }
-    }
-    
-    var allLines = document.querySelectorAll('.lyric-line');
-    allLines.forEach(function(l) {
-      l.classList.remove('active-line');
-    });
-    
-    if (activeLineIdx >= 0) {
-      var activeEl = document.querySelector('[data-line-idx="' + activeLineIdx + '"]');
-      if (activeEl) {
-        activeEl.classList.add('active-line');
-        activeEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }
-  }, 50);
-}
-
-function stopLyricSync() {
-  if (currentSyncTimer) {
-    clearInterval(currentSyncTimer);
-    currentSyncTimer = null;
-  }
 }
 
 // ── Definition popup ──────────────────────────────────────────────────────
@@ -1045,7 +1077,7 @@ function setStatus(id, type, html) {
 }
 
 function esc(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
 function fmt(s) {
@@ -1055,6 +1087,11 @@ function fmt(s) {
 }
 
 function cap(s) { return s.charAt(0).toUpperCase()+s.slice(1); }
+
+// Load popular podcasts on page load
+document.addEventListener('DOMContentLoaded', function() {
+  loadPopularPodcasts();
+});
 </script>
 </body>
 </html>
