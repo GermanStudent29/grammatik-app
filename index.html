@@ -23,7 +23,7 @@
   --sidebar:220px;
 }
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;}
-
+ 
 /* ── layout ── */
 .app-shell{display:flex;height:100vh;overflow:hidden;}
 .sidebar{width:var(--sidebar);background:#000;display:flex;flex-direction:column;padding:24px 0;flex-shrink:0;border-right:1px solid rgba(255,255,255,0.04);}
@@ -41,21 +41,21 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .page-title{font-size:2.2em;font-weight:700;letter-spacing:-0.5px;}
 .page-subtitle{color:var(--text2);font-size:0.88em;margin-top:4px;font-weight:300;}
 .content{padding:32px 40px 60px;}
-
+ 
 /* ── tab pages ── */
 .tab-page{display:none;}
 .tab-page.active{display:block;}
-
+ 
 /* ── cards ── */
 .card{background:var(--bg2);border-radius:var(--radius);padding:28px;margin-bottom:20px;}
 .card-title{font-size:0.72em;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);margin-bottom:20px;}
-
+ 
 /* ── inputs ── */
 .field-row{display:flex;gap:10px;margin-bottom:14px;}
 .field-input{flex:1;padding:12px 16px;background:var(--bg3);border:1px solid rgba(255,255,255,0.08);color:#fff;border-radius:6px;font-size:0.88em;font-family:inherit;outline:none;transition:border-color 0.15s;}
 .field-input:focus{border-color:rgba(255,255,255,0.25);}
 .field-hint{color:var(--text3);font-size:0.8em;margin-bottom:12px;line-height:1.6;}
-
+ 
 /* ── buttons ── */
 .btn{display:inline-flex;align-items:center;gap:7px;padding:10px 22px;border-radius:50px;border:none;cursor:pointer;font-size:0.85em;font-weight:600;font-family:inherit;transition:all 0.15s;letter-spacing:0.3px;}
 .btn-green{background:var(--green);color:#000;}
@@ -66,24 +66,24 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .btn-danger:hover{background:rgba(255,107,107,0.08);}
 .btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
 .btn-group{display:flex;gap:10px;flex-wrap:wrap;}
-
+ 
 /* ── topic box ── */
 .topic-display{background:var(--bg3);border-radius:6px;padding:20px 22px;min-height:72px;display:flex;align-items:center;margin-bottom:18px;border:1px solid rgba(255,255,255,0.05);}
 .topic-text{font-size:1.05em;line-height:1.7;font-weight:400;}
 .topic-placeholder{color:var(--text3);font-style:italic;}
-
+ 
 /* ── essay textarea ── */
 .essay-area{width:100%;padding:18px;background:var(--bg3);border:1px solid rgba(255,255,255,0.05);color:#fff;border-radius:6px;font-size:0.95em;line-height:1.8;font-family:inherit;resize:vertical;min-height:200px;outline:none;transition:border-color 0.15s;}
 .essay-area:focus{border-color:rgba(255,255,255,0.2);}
 .word-count{color:var(--text3);font-size:0.8em;margin-top:8px;}
-
+ 
 /* ── score ── */
 .score-bar{display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap;}
 .score-pill{background:var(--bg3);border-radius:var(--radius);padding:16px 20px;flex:1;min-width:130px;}
 .score-label{color:var(--text2);font-size:0.75em;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
 .score-num{font-size:2em;font-weight:700;color:var(--green);}
 .feedback-area{background:var(--bg3);border-radius:6px;padding:20px;line-height:1.9;font-size:0.9em;color:var(--text2);white-space:pre-wrap;word-break:break-word;}
-
+ 
 /* ── ─── SPOTIFY LYRICS STYLE ─── ── */
 .spotify-lyrics-wrap{padding:12px 0;}
 .lyric-line{padding:10px 0;cursor:default;transition:color 0.2s;}
@@ -92,11 +92,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .lyric-en{font-size:0.88em;font-weight:400;color:var(--text3);line-height:1.5;margin-top:3px;font-style:normal;}
 .lyric-line:not(.active-line) .lyric-de{color:var(--text3);font-weight:600;}
 .lyric-line:not(.active-line) .lyric-en{color:#444;}
-
+ 
 /* clickable word */
 .de-word{display:inline;cursor:pointer;border-radius:3px;padding:1px 1px;transition:background 0.12s, color 0.12s;}
 .de-word:hover{color:var(--green);background:var(--green-dim);}
-
+ 
 /* ── definition popup ── */
 .def-popup{position:fixed;background:#282828;border:none;border-radius:12px;padding:20px 22px;max-width:300px;min-width:220px;box-shadow:0 16px 48px rgba(0,0,0,0.8);z-index:9999;display:none;animation:popIn 0.15s cubic-bezier(.23,1,.32,1);}
 @keyframes popIn{from{opacity:0;transform:scale(0.9) translateY(6px);}to{opacity:1;transform:scale(1) translateY(0);}}
@@ -106,7 +106,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .def-pos{color:var(--text3);font-size:0.72em;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
 .def-meaning{color:#fff;font-size:0.92em;line-height:1.55;}
 .def-example{color:var(--text2);font-size:0.82em;margin-top:10px;font-style:italic;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);}
-
+ 
 /* ── audio player (Spotify style) ── */
 .audio-player-bar{background:var(--bg3);border-radius:var(--radius);padding:20px 24px;margin-bottom:16px;}
 .audio-name{font-size:0.82em;color:var(--text2);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
@@ -122,18 +122,18 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .speed-tag{color:var(--text3);font-size:0.75em;margin-right:4px;}
 .speed-btn{padding:4px 11px;font-size:0.75em;border:1px solid rgba(255,255,255,0.1);color:var(--text3);background:transparent;border-radius:50px;cursor:pointer;transition:all 0.15s;font-family:inherit;}
 .speed-btn:hover,.speed-btn.active{border-color:var(--green);color:var(--green);}
-
+ 
 /* ── status banners ── */
 .status-banner{padding:14px 18px;border-radius:6px;margin:14px 0;font-size:0.85em;line-height:1.6;display:none;}
 .status-banner.info{background:var(--green-dim);border:1px solid var(--green-mid);color:#b9f5cc;}
 .status-banner.error{background:rgba(255,100,100,0.08);border:1px solid rgba(255,100,100,0.25);color:#ffaaaa;}
 .status-banner.success{background:var(--green-dim);border:1px solid var(--green-mid);color:var(--green);}
 .status-banner.show{display:block;}
-
+ 
 /* ── spinner ── */
 .spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(30,215,96,0.2);border-top-color:var(--green);border-radius:50%;animation:s 0.7s linear infinite;vertical-align:middle;margin-right:7px;}
 @keyframes s{to{transform:rotate(360deg);}}
-
+ 
 /* ── history ── */
 .hist-card{background:var(--bg2);border-radius:var(--radius);padding:16px 20px;margin-bottom:12px;cursor:pointer;transition:background 0.12s;}
 .hist-card:hover{background:var(--bg3);}
@@ -143,39 +143,39 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .hist-score{font-size:1.4em;font-weight:700;color:var(--green);flex-shrink:0;}
 .hist-preview{display:none;margin-top:14px;border-top:1px solid rgba(255,255,255,0.05);padding-top:14px;color:var(--text2);font-size:0.82em;line-height:1.7;}
 .hist-card.open .hist-preview{display:block;}
-
+ 
 /* ── analytics ── */
 .analytics-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
 @media(max-width:700px){.analytics-grid{grid-template-columns:1fr;}}
 .chart-wrap{background:var(--bg3);border-radius:var(--radius);padding:20px;height:280px;position:relative;}
 .weakness-list p{padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.88em;color:var(--text2);}
 .weakness-list p strong{color:#fff;}
-
+ 
 /* ── upload button ── */
 .upload-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;background:var(--bg3);border:1px dashed rgba(255,255,255,0.15);border-radius:50px;color:var(--text2);cursor:pointer;font-size:0.85em;font-weight:500;transition:all 0.15s;}
 .upload-btn:hover{border-color:var(--green);color:var(--green);}
 .inline-filename{color:var(--text3);font-size:0.82em;margin-left:8px;}
-
+ 
 /* ── api section ── */
 .api-card{background:var(--green-dim);border:1px solid var(--green-mid);border-radius:var(--radius);padding:20px 24px;margin-bottom:16px;}
 .api-card .card-title{color:var(--green);}
 .api-saved{font-size:0.82em;color:var(--green);margin-top:8px;display:none;}
 .api-saved.show{display:block;}
-
+ 
 /* ── section heading ── */
 .section-head{font-size:1.4em;font-weight:700;margin-bottom:6px;letter-spacing:-0.3px;}
 .section-sub{color:var(--text2);font-size:0.85em;margin-bottom:24px;}
-
+ 
 /* ── translinear container ── */
 .translinear-bg{background:var(--bg2);border-radius:var(--radius);padding:32px 36px;min-height:200px;}
-
+ 
 /* ── source tabs ── */
 .source-tab{padding:8px 0;border-bottom:2px solid transparent;color:var(--text2);background:none;border:none;cursor:pointer;font-size:0.9em;font-weight:600;transition:all 0.15s;}
 .source-tab.active{color:#fff;border-bottom-color:var(--green);}
 .source-tabs{display:flex;gap:8px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:16px;}
 .source-content{display:none;}
 .source-content.active{display:block;}
-
+ 
 @media(max-width:640px){
   .sidebar{display:none;}
   .content{padding:20px;}
@@ -184,9 +184,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 </style>
 </head>
 <body>
-
+ 
 <div class="app-shell">
-
+ 
   <!-- SIDEBAR -->
   <nav class="sidebar">
     <div class="sidebar-logo">Gram<span>matik</span></div>
@@ -196,7 +196,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     <div class="nav-item" data-tab="analytics"><span class="nav-icon">📊</span>Analytics</div>
     <div class="nav-item" data-tab="settings"><span class="nav-icon">⚙️</span>Settings</div>
   </nav>
-
+ 
   <!-- MAIN -->
   <div class="main">
     <div class="topbar">
@@ -206,10 +206,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
       </div>
     </div>
     <div class="content">
-
+ 
       <!-- ══ ESSAY TAB ══ -->
       <div id="tab-essay" class="tab-page active">
-
+ 
         <div class="api-card">
           <div class="card-title">Claude API Key</div>
           <p class="field-hint">Used for essay grading, translinear translation, and word definitions.</p>
@@ -219,7 +219,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
           </div>
           <div class="api-saved" id="apiStatus">✓ Saved</div>
         </div>
-
+ 
         <div class="api-card" style="margin-bottom:28px;">
           <div class="card-title">OpenAI API Key</div>
           <p class="field-hint">Used only for Whisper audio transcription in the Listening tab.</p>
@@ -229,7 +229,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
           </div>
           <div class="api-saved" id="openaiStatus">✓ Saved</div>
         </div>
-
+ 
         <div class="section-head">Essay Topic</div>
         <div class="section-sub">Get a random topic, then write 100–200 words.</div>
         <div class="topic-display"><div id="topicDisplay" class="topic-text topic-placeholder">Click Generate Topic to get started</div></div>
@@ -237,7 +237,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
           <button class="btn btn-green" id="generateBtn">↻ Generate Topic</button>
           <button class="btn btn-ghost" id="clearBtn">Clear</button>
         </div>
-
+ 
         <div class="section-head">Your Essay</div>
         <div class="section-sub">Write in German. Aim for 100–200 words.</div>
         <textarea class="essay-area" id="essayInput" placeholder="Schreiben Sie hier Ihren Aufsatz…"></textarea>
@@ -245,7 +245,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
         <div class="btn-group" style="margin-top:18px;">
           <button class="btn btn-green" id="submitBtn">Submit for Feedback</button>
         </div>
-
+ 
         <div id="feedbackSection" style="display:none;margin-top:28px;">
           <div class="section-head">Feedback</div>
           <div class="score-bar">
@@ -255,19 +255,19 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
           <div class="feedback-area" id="feedbackDisplay"></div>
         </div>
       </div>
-
+ 
       <!-- ══ LISTENING TAB ══ -->
       <div id="tab-listening" class="tab-page">
         <div class="section-head">Download German Audio</div>
         <div class="section-sub">Choose from curated German sources, paste a podcast RSS feed, or upload your own audio file.</div>
-
+ 
         <div class="card">
           <div class="source-tabs">
             <button class="source-tab active" data-source="podcast">🎙️ Podcast Feed</button>
             <button class="source-tab" data-source="dw">🇩🇪 Deutsche Welle</button>
             <button class="source-tab" data-source="upload">📂 Upload File</button>
           </div>
-
+ 
           <!-- ════ PODCAST RSS TAB ════ -->
           <div id="source-podcast" class="source-content active">
             <div style="margin-bottom:16px;">
@@ -278,27 +278,27 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
               </div>
               <p class="field-hint">Paste the RSS feed URL of any podcast. Popular German podcasts are listed below.</p>
             </div>
-
+ 
             <div style="margin-bottom:20px;padding:14px;background:var(--bg3);border-radius:6px;border:1px solid rgba(255,255,255,0.05);">
               <div style="color:var(--text2);font-size:0.85em;margin-bottom:10px;font-weight:600;">💡 Popular German Podcasts:</div>
               <div id="popularPodcastsList" style="display:flex;flex-direction:column;gap:8px;"></div>
             </div>
-
+ 
             <div id="feedParseStatus" class="status-banner"></div>
-
+ 
             <div id="episodesList" style="display:none;margin-top:16px;">
               <div style="color:var(--text2);font-size:0.9em;margin-bottom:12px;font-weight:600;">Recent Episodes:</div>
               <div id="episodesListContent" style="display:flex;flex-direction:column;gap:10px;max-height:400px;overflow-y:auto;"></div>
             </div>
           </div>
-
+ 
           <!-- ════ DEUTSCHE WELLE TAB ════ -->
           <div id="source-dw" class="source-content">
             <p class="field-hint" style="margin-bottom:16px;">Deutsche Welle offers high-quality German learning content perfect for B1-B2 learners.</p>
             <div id="dwSourcesList" style="display:flex;flex-direction:column;gap:12px;"></div>
             <div id="dwStatus" class="status-banner" style="margin-top:16px;"></div>
           </div>
-
+ 
           <!-- ════ UPLOAD FILE TAB ════ -->
           <div id="source-upload" class="source-content">
             <p class="field-hint" style="margin-bottom:12px;">Upload your own German audio file (MP3, M4A, WAV, OGG, WEBM):</p>
@@ -309,7 +309,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
             </div>
           </div>
         </div>
-
+ 
         <div id="playerSection" style="display:none;">
           <div class="audio-player-bar">
             <div class="audio-name"><span class="audio-name-icon">♫</span><span id="audioFilename"></span></div>
@@ -335,7 +335,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
           </div>
           <div id="transcribeStatus" class="status-banner"></div>
         </div>
-
+ 
         <div id="rawTranscriptSection" style="display:none;" class="card">
           <div class="card-title">Transcribed Text</div>
           <p class="field-hint">Review and correct if needed, then generate the interactive view.</p>
@@ -345,7 +345,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
           </div>
           <div id="translinearStatus" class="status-banner"></div>
         </div>
-
+ 
         <div id="transcriptSection" style="display:none;">
           <div class="section-head" style="margin-bottom:6px;">Translinear Transcript</div>
           <p class="section-sub">Click any <span style="color:var(--green);">German word</span> for its definition.</p>
@@ -354,14 +354,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
           </div>
         </div>
       </div>
-
+ 
       <!-- ══ HISTORY TAB ══ -->
       <div id="tab-history" class="tab-page">
         <div class="section-head">Submission History</div>
         <div class="section-sub">Click a card to expand.</div>
         <div id="submissionsList"></div>
       </div>
-
+ 
       <!-- ══ ANALYTICS TAB ══ -->
       <div id="tab-analytics" class="tab-page">
         <div class="section-head">Grammar Analysis</div>
@@ -371,7 +371,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
           <div id="weaknessText" class="weakness-list"></div>
         </div>
       </div>
-
+ 
       <!-- ══ SETTINGS TAB ══ -->
       <div id="tab-settings" class="tab-page">
         <div class="section-head">Settings</div>
@@ -384,11 +384,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
           <p style="color:var(--text3);font-size:0.82em;">Grammatik · Powered by Claude & Whisper</p>
         </div>
       </div>
-
+ 
     </div>
   </div>
 </div>
-
+ 
 <!-- DEFINITION POPUP -->
 <div class="def-popup" id="defPopup">
   <button class="def-close" id="defClose">✕</button>
@@ -397,15 +397,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   <div class="def-meaning" id="defMeaning"></div>
   <div class="def-example" id="defExample" style="display:none;"></div>
 </div>
-
+ 
 <audio id="audioEl" style="display:none;"></audio>
-
+ 
 <script>
 'use strict';
-
+ 
 // ── Configuration ──────────────────────────────────────────────────────────
 const BACKEND_URL = 'http://localhost:3001'; // Change to your backend URL
-
+ 
 // ── Titles per tab ──────────────────────────────────────────────────────────
 var TAB_META = {
   essay:     {title:'Essay',     sub:'German B1–B2 Writing Practice'},
@@ -414,7 +414,7 @@ var TAB_META = {
   analytics: {title:'Analytics', sub:'See where you make the most errors'},
   settings:  {title:'Settings',  sub:'Manage your data and keys'},
 };
-
+ 
 // ── Essay topics ──────────────────────────────────────────────────────────
 var TOPICS = [
   "Schreiben Sie über Ihre liebste Jahreszeit und warum sie Ihnen gefällt.",
@@ -430,20 +430,20 @@ var TOPICS = [
   "Schreiben Sie über ein Ereignis aus Ihrer Kindheit, das Sie nicht vergessen.",
   "Beschreiben Sie das perfekte Wochenende für Sie."
 ];
-
+ 
 var currentTopic = '';
 var chartInstance = null;
 var defCache = {};
 var currentAudioFile = null;
 var currentObjectURL = null;
 var audioEl = document.getElementById('audioEl');
-
+ 
 // ── Hardcoded API Keys (Personal Use) ─────────────────────────────────────
 var HARDCODED_KEYS = {
   claudeKey: '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',
   openaiKey: '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'
 };
-
+ 
 // ── Storage ──────────────────────────────────────────────────────────────
 function loadData() {
   try { return JSON.parse(localStorage.getItem('grammatik_v2') || '{}'); }
@@ -458,7 +458,7 @@ function getKey(k) {
 function setKey(k, v) { var d=loadData(); d[k]=v; saveData(d); }
 function getSubs() { return loadData().submissions || []; }
 function addSub(s) { var d=loadData(); if (!d.submissions) d.submissions=[]; d.submissions.push(s); saveData(d); }
-
+ 
 // ── Tab switching ─────────────────────────────────────────────────────────
 document.querySelectorAll('.nav-item').forEach(function(el) {
   el.addEventListener('click', function() {
@@ -473,7 +473,7 @@ document.querySelectorAll('.nav-item').forEach(function(el) {
     if (tab === 'analytics') renderAnalytics();
   });
 });
-
+ 
 // ── API Keys ──────────────────────────────────────────────────────────────
 function setupKeyUI(inputId, btnId, statusId, storeKey) {
   var input  = document.getElementById(inputId);
@@ -494,7 +494,7 @@ function setupKeyUI(inputId, btnId, statusId, storeKey) {
 }
 setupKeyUI('apiKey',    'saveApiBtn',    'apiStatus',    'claudeKey');
 setupKeyUI('openaiKey', 'saveOpenaiBtn', 'openaiStatus', 'openaiKey');
-
+ 
 // ── Essay ─────────────────────────────────────────────────────────────────
 document.getElementById('generateBtn').addEventListener('click', function() {
   currentTopic = TOPICS[Math.floor(Math.random() * TOPICS.length)];
@@ -504,7 +504,7 @@ document.getElementById('generateBtn').addEventListener('click', function() {
   document.getElementById('essayInput').value = '';
   document.getElementById('feedbackSection').style.display = 'none';
 });
-
+ 
 document.getElementById('clearBtn').addEventListener('click', function() {
   currentTopic = '';
   var el = document.getElementById('topicDisplay');
@@ -514,14 +514,14 @@ document.getElementById('clearBtn').addEventListener('click', function() {
   document.getElementById('feedbackSection').style.display = 'none';
   document.getElementById('wordCount').textContent = '0 words';
 });
-
+ 
 document.getElementById('essayInput').addEventListener('input', function() {
   var w = countWords(this.value);
   document.getElementById('wordCount').textContent = w + ' words';
 });
-
+ 
 function countWords(s) { return s.trim().split(/\s+/).filter(Boolean).length; }
-
+ 
 document.getElementById('submitBtn').addEventListener('click', async function() {
   var key = getKey('claudeKey');
   if (!key) { alert('Please save your Claude API key first.'); return; }
@@ -530,26 +530,26 @@ document.getElementById('submitBtn').addEventListener('click', async function() 
   if (!currentTopic) { alert('Please generate a topic first.'); return; }
   var wc = countWords(essay);
   if (wc < 80) { alert('Please write at least 80 words (' + wc + ' so far).'); return; }
-
+ 
   var btn = this;
   btn.textContent = 'Scoring…'; btn.disabled = true;
-
+ 
   var prompt = 'Grade this B1-B2 German essay on grammar, word order, and clauses only.\n\nTOPIC: ' + currentTopic + '\n\nESSAY: ' + essay + '\n\nRespond exactly like this:\n\nSCORE: [1-100]\n\nKEY ISSUES:\n- issue one\n\nFEEDBACK: general feedback\n\nCATEGORIES:\n- Wordorder: X%\n- Clauses: X%\n- Cases: X%\n- Tenses: X%\n- Articles: X%\n- Prepositions: X%\n- Other: X%';
-
+ 
   try {
     var res = await claudeAPI(key, prompt, 1500);
     var feedback = res.content[0].text;
     var scoreMatch = feedback.match(/SCORE:\s*(\d+)/);
     var score = scoreMatch ? parseInt(scoreMatch[1]) : 0;
-
+ 
     var weaknesses = {};
     ['Wordorder','Clauses','Cases','Tenses','Articles','Prepositions','Other'].forEach(function(cat) {
       var m = feedback.match(new RegExp(cat + ':\\s*(\\d+)%', 'i'));
       weaknesses[cat.toLowerCase()] = m ? parseInt(m[1]) : 0;
     });
-
+ 
     addSub({ id: Date.now(), topic: currentTopic, essay, score, feedback, weaknesses, timestamp: new Date().toLocaleString() });
-
+ 
     document.getElementById('scoreDisplay').textContent = score;
     document.getElementById('countDisplay').textContent = wc;
     document.getElementById('feedbackDisplay').textContent = feedback;
@@ -560,7 +560,7 @@ document.getElementById('submitBtn').addEventListener('click', async function() 
   }
   btn.textContent = 'Submit for Feedback'; btn.disabled = false;
 });
-
+ 
 // ── History ───────────────────────────────────────────────────────────────
 function renderHistory() {
   var subs = getSubs();
@@ -579,19 +579,19 @@ function renderHistory() {
   }
   el.innerHTML = html;
 }
-
+ 
 // ── Analytics ─────────────────────────────────────────────────────────────
 function renderAnalytics() {
   var subs = getSubs();
   if (!subs.length) { document.getElementById('weaknessText').innerHTML = '<p style="color:var(--text3);">Submit essays to see analysis.</p>'; return; }
-
+ 
   var totals = { wordorder:0, clauses:0, cases:0, tenses:0, articles:0, prepositions:0, other:0 };
   subs.forEach(function(s){ for (var k in totals) totals[k] += (s.weaknesses[k]||0); });
   var total = Object.values(totals).reduce(function(a,b){return a+b;},0);
-
+ 
   var sorted = Object.entries(totals).map(function(e){ return [cap(e[0]), total>0 ? Math.round((e[1]/total)*100) : 0]; })
     .sort(function(a,b){return b[1]-a[1];});
-
+ 
   var ctx = document.getElementById('weaknessChart').getContext('2d');
   if (chartInstance) chartInstance.destroy();
   chartInstance = new Chart(ctx, {
@@ -605,12 +605,12 @@ function renderAnalytics() {
     options:{ responsive:true, maintainAspectRatio:false, cutout:'60%',
       plugins:{ legend:{ labels:{ color:'#b3b3b3', font:{size:11} } } } }
   });
-
+ 
   document.getElementById('weaknessText').innerHTML = sorted.map(function(x){
     return '<p><strong>' + x[0] + '</strong>: ' + x[1] + '%</p>';
   }).join('');
 }
-
+ 
 // ── Export / clear ─────────────────────────────────────────────────────────
 document.getElementById('exportBtn').addEventListener('click', function() {
   var blob = new Blob([JSON.stringify(loadData(),null,2)], {type:'application/json'});
@@ -619,7 +619,7 @@ document.getElementById('exportBtn').addEventListener('click', function() {
 document.getElementById('clearAllBtn').addEventListener('click', function() {
   if (confirm('Delete all saved data?')) { localStorage.clear(); location.reload(); }
 });
-
+ 
 // ── LISTENING: Source Tab Switching ────────────────────────────────────────
 document.querySelectorAll('.source-tab').forEach(function(tab) {
   tab.addEventListener('click', function() {
@@ -639,12 +639,12 @@ document.querySelectorAll('.source-tab').forEach(function(tab) {
     if (source === 'podcast') loadPopularPodcasts();
   });
 });
-
+ 
 // ── LISTENING: Podcast RSS ─────────────────────────────────────────────────
 function loadPopularPodcasts() {
   var list = document.getElementById('popularPodcastsList');
   if (list.children.length > 0) return;
-
+ 
   fetch(BACKEND_URL + '/api/popular-german-podcasts')
     .then(r => r.json())
     .then(data => {
@@ -665,7 +665,7 @@ function loadPopularPodcasts() {
       list.innerHTML = '<p style="color:var(--text3);font-size:0.85em;">Failed to load podcast list. Paste a feed URL directly above.</p>';
     });
 }
-
+ 
 document.getElementById('parseFeedBtn').addEventListener('click', async function() {
   var feedUrl = document.getElementById('podcastFeedUrl').value.trim();
   
@@ -673,25 +673,25 @@ document.getElementById('parseFeedBtn').addEventListener('click', async function
     setStatus('feedParseStatus', 'error', '⚠ Please paste a podcast feed URL');
     return;
   }
-
+ 
   var btn = this;
   btn.textContent = 'Loading…';
   btn.disabled = true;
   setStatus('feedParseStatus', 'info', '<span class="spin"></span>Parsing podcast feed…');
-
+ 
   try {
     var response = await fetch(BACKEND_URL + '/api/parse-podcast-feed', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ feedUrl })
     });
-
+ 
     var data = await response.json();
-
+ 
     if (!response.ok) {
       throw new Error(data.error || 'Failed to parse feed');
     }
-
+ 
     var episodesList = data.episodes.map((ep, idx) => `
       <div style="padding:12px;background:var(--bg2);border-radius:6px;border:1px solid rgba(255,255,255,0.05);">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
@@ -706,31 +706,31 @@ document.getElementById('parseFeedBtn').addEventListener('click', async function
         </div>
       </div>
     `).join('');
-
+ 
     document.getElementById('episodesListContent').innerHTML = episodesList;
     document.getElementById('episodesList').style.display = 'block';
     setStatus('feedParseStatus', 'success', `✓ Found ${data.episodes.length} episodes`);
-
+ 
   } catch (error) {
     console.error('Feed parse error:', error);
     setStatus('feedParseStatus', 'error', '⚠ ' + esc(error.message));
   }
-
+ 
   btn.textContent = '📖 Load Episodes';
   btn.disabled = false;
 });
-
+ 
 function downloadPodcastEpisode(audioUrl, title) {
   downloadAudioFromUrl(audioUrl, title);
 }
-
+ 
 // ── LISTENING: Deutsche Welle ──────────────────────────────────────────────
 function loadDWSources() {
   var list = document.getElementById('dwSourcesList');
   if (list.children.length > 0) return;
-
+ 
   list.innerHTML = '<div style="color:var(--text3);"><span class="spin"></span> Loading Deutsche Welle sources…</div>';
-
+ 
   fetch(BACKEND_URL + '/api/dw-sources')
     .then(r => r.json())
     .then(data => {
@@ -750,10 +750,10 @@ function loadDWSources() {
       list.innerHTML = '<p style="color:#ff9999;">Failed to load Deutsche Welle sources.</p>';
     });
 }
-
+ 
 function fetchDWSource(sourceId) {
   setStatus('dwStatus', 'info', '<span class="spin"></span>Loading Deutsche Welle content…');
-
+ 
   fetch(BACKEND_URL + '/api/dw-sources/' + sourceId)
     .then(r => r.json())
     .then(data => {
@@ -776,55 +776,55 @@ function fetchDWSource(sourceId) {
       setStatus('dwStatus', 'error', '⚠ ' + esc(err.message));
     });
 }
-
+ 
 // ── LISTENING: Direct Audio Download ──────────────────────────────────────
 async function downloadAudioFromUrl(audioUrl, title) {
   document.getElementById('playerSection').style.display = 'block';
   document.getElementById('playerSection').scrollIntoView({ behavior: 'smooth' });
-
+ 
   setStatus('transcribeStatus', 'info', '<span class="spin"></span>Downloading audio…');
-
+ 
   try {
     var response = await fetch(BACKEND_URL + '/api/download-audio', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url: audioUrl })
     });
-
+ 
     if (!response.ok) {
       var errorData = await response.json();
       throw new Error(errorData.error || `Error: ${response.status}`);
     }
-
+ 
     var blob = await response.blob();
     var audioUrl2 = URL.createObjectURL(blob);
-
+ 
     currentAudioFile = { name: title || 'Audio', size: blob.size };
     if (currentObjectURL) URL.revokeObjectURL(currentObjectURL);
     currentObjectURL = audioUrl2;
-
+ 
     audioEl.src = audioUrl2;
     audioEl.load();
     document.getElementById('audioFilename').textContent = title || 'Downloaded Audio';
     document.getElementById('audioFilenameInline').textContent = title || 'Downloaded Audio';
-
+ 
     setStatus('transcribeStatus', 'success', '✓ Audio downloaded! Click "Transcribe" to proceed.');
-
+ 
   } catch (error) {
     console.error('Download error:', error);
     setStatus('transcribeStatus', 'error', '⚠ ' + esc(error.message));
   }
 }
-
+ 
 // ── Audio Player ───────────────────────────────────────────────────────────
 document.getElementById('audioFile').addEventListener('change', function() {
   var file = this.files[0];
   if (!file) return;
-
+ 
   currentAudioFile = file;
   if (currentObjectURL) URL.revokeObjectURL(currentObjectURL);
   currentObjectURL = URL.createObjectURL(file);
-
+ 
   audioEl.src = currentObjectURL;
   audioEl.load();
   document.getElementById('audioFilename').textContent = file.name;
@@ -838,11 +838,11 @@ document.getElementById('audioFile').addEventListener('change', function() {
   document.getElementById('rawTranscriptSection').style.display = 'none';
   document.getElementById('transcriptSection').style.display = 'none';
 });
-
+ 
 audioEl.addEventListener('loadedmetadata', function() {
   document.getElementById('timeDisplay').textContent = '0:00 / ' + fmt(audioEl.duration);
 });
-
+ 
 audioEl.addEventListener('timeupdate', function() {
   var dur = audioEl.duration;
   if (dur && !isNaN(dur)) {
@@ -852,11 +852,11 @@ audioEl.addEventListener('timeupdate', function() {
     document.getElementById('timeDisplay').textContent = fmt(audioEl.currentTime) + ' / ' + fmt(dur);
   }
 });
-
+ 
 audioEl.addEventListener('ended', function() {
   document.getElementById('playBtn').textContent = '▶';
 });
-
+ 
 document.getElementById('playBtn').addEventListener('click', function() {
   if (!audioEl.src) return;
   if (audioEl.paused) {
@@ -868,12 +868,12 @@ document.getElementById('playBtn').addEventListener('click', function() {
     document.getElementById('playBtn').textContent = '▶';
   }
 });
-
+ 
 document.getElementById('seekBar').addEventListener('input', function() {
   var dur = audioEl.duration;
   if (dur && !isNaN(dur)) audioEl.currentTime = (this.value / 100) * dur;
 });
-
+ 
 document.querySelectorAll('.speed-btn').forEach(function(b) {
   b.addEventListener('click', function() {
     audioEl.playbackRate = parseFloat(this.dataset.speed);
@@ -881,7 +881,7 @@ document.querySelectorAll('.speed-btn').forEach(function(b) {
     this.classList.add('active');
   });
 });
-
+ 
 document.getElementById('clearListeningBtn').addEventListener('click', function() {
   audioEl.pause();
   audioEl.src = '';
@@ -898,18 +898,18 @@ document.getElementById('clearListeningBtn').addEventListener('click', function(
   setStatus('transcribeStatus', '', '');
   document.getElementById('playBtn').textContent = '▶';
 });
-
+ 
 // ── Whisper Transcription ──────────────────────────────────────────────────
 document.getElementById('transcribeBtn').addEventListener('click', async function() {
   var openaiKey = getKey('openaiKey');
   if (!openaiKey) { alert('Please save your OpenAI API key first.'); return; }
   if (!currentAudioFile) { alert('Please choose an audio file.'); return; }
   if (currentAudioFile.size > 25*1024*1024) { alert('File too large (>25 MB). Use a shorter clip.'); return; }
-
+ 
   var btn = this;
   btn.textContent = 'Transcribing…'; btn.disabled = true;
   setStatus('transcribeStatus', 'info', '<span class="spin"></span>Sending to Whisper…');
-
+ 
   try {
     var fd = new FormData();
     fd.append('file', currentAudioFile);
@@ -931,43 +931,43 @@ document.getElementById('transcribeBtn').addEventListener('click', async functio
   }
   btn.textContent = '🎙 Transcribe with Whisper'; btn.disabled = false;
 });
-
+ 
 // ── Generate Translinear ──────────────────────────────────────────────────
 document.getElementById('generateTranslinearBtn').addEventListener('click', async function() {
   var apiKey = getKey('claudeKey');
   if (!apiKey) { alert('Please save your Claude API key first.'); return; }
   var rawText = document.getElementById('rawTranscriptEdit').value.trim();
   if (!rawText) { alert('No transcript text to translate.'); return; }
-
+ 
   var btn = this;
   btn.textContent = 'Translating…'; btn.disabled = true;
-
+ 
   setStatus('translinearStatus', 'info', '<span class="spin"></span>Claude is translating…');
   document.getElementById('transcriptSection').style.display = 'block';
   document.getElementById('transcriptContent').innerHTML = '<div style="padding:40px;text-align:center;color:var(--text3);"><span class="spin"></span> Building lyrics view…</div>';
-
+ 
   var lines = rawText
     .replace(/([.!?])\s+/g, '$1\n')
     .split(/\n+/)
     .map(function(l){ return l.trim(); })
     .filter(Boolean);
   if (!lines.length) lines = [rawText];
-
+ 
   var prompt = 'Translate each numbered German sentence into natural English. Return ONLY valid JSON with NO markdown fences, exactly this shape:\n{"pairs":[{"de":"German sentence","en":"English translation"}]}\n\nSentences:\n' + lines.map(function(l,i){ return (i+1)+'. '+l; }).join('\n');
-
+ 
   try {
     var res = await claudeAPI(apiKey, prompt, 4000);
     var rawJson = res.content[0].text.trim()
       .replace(/^```json\s*/i,'').replace(/^```\s*/i,'').replace(/```\s*$/,'').trim();
-
+ 
     var start = rawJson.indexOf('{');
     var end   = rawJson.lastIndexOf('}');
     if (start === -1 || end === -1) throw new Error('No JSON object found in Claude response.');
     rawJson = rawJson.slice(start, end+1);
-
+ 
     var parsed = JSON.parse(rawJson);
     if (!parsed.pairs || !Array.isArray(parsed.pairs)) throw new Error('Unexpected JSON shape from Claude.');
-
+ 
     renderTranscript(parsed.pairs);
     setStatus('translinearStatus','success','✓ Done! Click any German word to see its definition.');
     document.getElementById('transcriptSection').scrollIntoView({behavior:'smooth',block:'start'});
@@ -975,10 +975,10 @@ document.getElementById('generateTranslinearBtn').addEventListener('click', asyn
     setStatus('translinearStatus','error','⚠ Error: ' + esc(err.message));
     document.getElementById('transcriptContent').innerHTML = '<div style="color:#ff9999;padding:20px;">Error: ' + esc(err.message) + '<br><br><small style="color:var(--text3);">Tip: Check your Claude API key and try again.</small></div>';
   }
-
+ 
   btn.textContent = 'Generate Lyrics View'; btn.disabled = false;
 });
-
+ 
 function renderTranscript(pairs) {
   if (!pairs || !pairs.length) { document.getElementById('transcriptContent').innerHTML='<p style="color:var(--text3);">No content.</p>'; return; }
   var html = '';
@@ -993,12 +993,12 @@ function renderTranscript(pairs) {
     w.addEventListener('click', function(e) { e.stopPropagation(); showDef(this.dataset.word, e); });
   });
 }
-
+ 
 function activateLine(el) {
   document.querySelectorAll('.lyric-line').forEach(function(l){ l.classList.remove('active-line'); });
   el.classList.add('active-line');
 }
-
+ 
 function makeClickable(sentence) {
   return sentence.replace(/([^\s]+)/g, function(token) {
     var clean = token.replace(/[.,!?;:"""''«»()\[\]–—]/g,'').trim();
@@ -1006,7 +1006,7 @@ function makeClickable(sentence) {
     return '<span class="de-word" data-word="' + esc(clean) + '">' + esc(token) + '</span>';
   });
 }
-
+ 
 // ── Definition popup ──────────────────────────────────────────────────────
 var popup = document.getElementById('defPopup');
 document.getElementById('defClose').addEventListener('click', function(){ popup.style.display='none'; });
@@ -1014,7 +1014,7 @@ document.addEventListener('click', function(e) {
   if (popup.style.display==='block' && !popup.contains(e.target) && !e.target.classList.contains('de-word'))
     popup.style.display='none';
 });
-
+ 
 async function showDef(word, e) {
   document.getElementById('defWord').textContent = word;
   document.getElementById('defPos').textContent = '';
@@ -1022,7 +1022,7 @@ async function showDef(word, e) {
   document.getElementById('defExample').style.display = 'none';
   positionPopup(e);
   popup.style.display = 'block';
-
+ 
   var key2 = word.toLowerCase();
   if (defCache[key2]) { fillDef(defCache[key2]); return; }
   var apiKey = getKey('claudeKey');
@@ -1037,13 +1037,13 @@ async function showDef(word, e) {
     fillDef(def);
   } catch(err) { document.getElementById('defMeaning').textContent = 'Could not load definition.'; }
 }
-
+ 
 function fillDef(def) {
   document.getElementById('defPos').textContent = def.pos || '';
   document.getElementById('defMeaning').textContent = def.meaning || '';
   if (def.example) { document.getElementById('defExample').textContent = def.example; document.getElementById('defExample').style.display='block'; }
 }
-
+ 
 function positionPopup(e) {
   var pw=300, ph=160, m=14;
   var x = e.clientX+m, y = e.clientY+m;
@@ -1052,7 +1052,7 @@ function positionPopup(e) {
   popup.style.left = (x+window.scrollX)+'px';
   popup.style.top  = (y+window.scrollY)+'px';
 }
-
+ 
 // ── Helpers ───────────────────────────────────────────────────────────────
 function claudeAPI(key, prompt, maxTokens) {
   return fetch('https://api.anthropic.com/v1/messages', {
@@ -1069,25 +1069,25 @@ function claudeAPI(key, prompt, maxTokens) {
     return r.json();
   });
 }
-
+ 
 function setStatus(id, type, html) {
   var el = document.getElementById(id);
   el.className = 'status-banner' + (type ? ' ' + type + ' show' : '');
   el.innerHTML = html;
 }
-
+ 
 function esc(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
-
+ 
 function fmt(s) {
   if (!s||isNaN(s)) return '0:00';
   var m=Math.floor(s/60), sec=Math.floor(s%60);
   return m+':'+(sec<10?'0':'')+sec;
 }
-
+ 
 function cap(s) { return s.charAt(0).toUpperCase()+s.slice(1); }
-
+ 
 // Load popular podcasts on page load
 document.addEventListener('DOMContentLoaded', function() {
   loadPopularPodcasts();
