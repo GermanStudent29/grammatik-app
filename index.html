@@ -645,25 +645,61 @@ document.getElementById('transcribeBtn').addEventListener('click', async functio
   setStatus('transcribeStatus', 'info', '<span class="spin"></span>Sending to Whisper…');
 
   try {
+    // Build FormData properly
     var fd = new FormData();
-    fd.append('file', currentAudioFile);
+    fd.append('file', currentAudioFile, currentAudioFile.name);
     fd.append('model', 'whisper-1');
     fd.append('language', 'de');
-    var r = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-      method:'POST', headers:{'Authorization':'Bearer '+openaiKey}, body:fd
+    
+    console.log('Whisper request:', {
+      fileName: currentAudioFile.name,
+      fileSize: (currentAudioFile.size / 1024 / 1024).toFixed(2) + ' MB',
+      apiKeyLength: openaiKey.length,
+      endpoint: 'https://api.openai.com/v1/audio/transcriptions'
     });
-    if (!r.ok) { var ej = await r.json().catch(function(){return{};}); throw new Error(ej.error ? ej.error.message : 'Whisper error '+r.status); }
+    
+    var r = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + openaiKey
+      },
+      body: fd
+    });
+    
+    console.log('Whisper response status:', r.status);
+    
+    if (!r.ok) {
+      var errorBody = await r.text();
+      console.error('Whisper error response:', errorBody);
+      var ej = {};
+      try { ej = JSON.parse(errorBody); } catch(e) {}
+      var errorMsg = ej.error?.message || ej.message || errorBody || ('Whisper error ' + r.status);
+      throw new Error(errorMsg);
+    }
+    
     var json = await r.json();
-    var text = (json.text||'').trim();
+    console.log('Whisper success:', json);
+    
+    var text = (json.text || '').trim();
     if (!text) throw new Error('Whisper returned empty transcription.');
-    setStatus('transcribeStatus','success','✓ Transcribed — ' + text.split(/\s+/).filter(Boolean).length + ' words. Review below, then generate the lyrics view.');
+    
+    var wordCount = text.split(/\s+/).filter(Boolean).length;
+    setStatus('transcribeStatus', 'success', '✓ Transcribed — ' + wordCount + ' words. Review below, then generate the lyrics view.');
     document.getElementById('rawTranscriptEdit').value = text;
     document.getElementById('rawTranscriptSection').style.display = 'block';
-    document.getElementById('rawTranscriptSection').scrollIntoView({behavior:'smooth',block:'start'});
+    document.getElementById('rawTranscriptSection').scrollIntoView({behavior:'smooth', block:'start'});
+    
   } catch(err) {
-    setStatus('transcribeStatus','error','⚠ ' + esc(err.message));
+    console.error('Transcribe error:', err.message);
+    var hint = '';
+    if (err.message.includes('UploadFile')) hint = '<br><small>Try: Different audio format (MP3/WAV), shorter clip, or check API key</small>';
+    if (err.message.includes('401')) hint = '<br><small>Your OpenAI API key is invalid or expired</small>';
+    if (err.message.includes('503')) hint = '<br><small>OpenAI service is temporarily unavailable, try again in a few minutes</small>';
+    setStatus('transcribeStatus', 'error', '⚠ ' + esc(err.message) + hint);
   }
-  btn.textContent = '🎙 Transcribe with Whisper'; btn.disabled = false;
+  
+  btn.textContent = '🎙 Transcribe with Whisper'; 
+  btn.disabled = false;
 });
 
 // ── Generate Translinear ──────────────────────────────────────────────────
