@@ -319,10 +319,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
           <div style="margin-top:20px;">
             <p style="color:var(--text2);font-size:0.85em;margin-bottom:12px;font-weight:500;">Top Suggestions:</p>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;">
-              <button class="podcast-suggest-btn" data-feed="https://easygerman.libsyn.com/rss">🎙 Easy German</button>
-              <button class="podcast-suggest-btn" data-feed="https://slowgerman.com/feed/podcast/">🎙 Slow German</button>
-              <button class="podcast-suggest-btn" data-feed="https://radiolingua.com/category/coffeebreakgerman/feed/">🎙 Coffee Break German</button>
-              <button class="podcast-suggest-btn" data-feed="https://www.germanpod101.com/feed/">🎙 GermanPod101</button>
+              <button class="podcast-suggest-btn" data-feed="https://korpo-talk.podigee.io/feed/mp3">🎙 Korpo Talk</button>
+              <button class="podcast-suggest-btn" data-feed="https://proxyfeed.svmaudio.com/feeds/easygerman/feed.xml">🎙 Easy German</button>
+              <button class="podcast-suggest-btn" data-feed="https://rss.dw.com/xml/DKpodcast_topthemamitvokabeln_de">🎙 Top Thema</button>
+              <button class="podcast-suggest-btn" data-feed="https://anchor.fm/s/10155178c/podcast/rss">🎙 German Learning</button>
             </div>
           </div>
         </div>
@@ -820,15 +820,21 @@ document.getElementById('transcribeBtn').addEventListener('click', async functio
   setStatus('transcribeStatus', 'info', '<span class="spin"></span>Sending to Whisper…');
 
   try {
+    // Ensure file has a clean .mp3 name so multer and Whisper accept it
+    var fileName = (currentAudioFile.name || 'audio.mp3').replace(/[^a-zA-Z0-9._-]/g, '_');
+    if (!/\.\w+$/.test(fileName)) fileName += '.mp3';
+    var fileToSend = new File([currentAudioFile], fileName, {type: currentAudioFile.type || 'audio/mpeg'});
+
     // Send to backend, which forwards to OpenAI Whisper. This avoids browser CORS issues.
     var fd = new FormData();
-    fd.append('file', currentAudioFile, currentAudioFile.name);
+    fd.append('file', fileToSend, fileName);
     fd.append('apiKey', openaiKey);
     fd.append('language', 'de');
 
     console.log('Whisper request via backend:', {
-      fileName: currentAudioFile.name,
-      fileSize: (currentAudioFile.size / 1024 / 1024).toFixed(2) + ' MB',
+      fileName: fileName,
+      fileSize: (fileToSend.size / 1024 / 1024).toFixed(2) + ' MB',
+      fileType: fileToSend.type,
       backend: BACKEND_URL
     });
 
